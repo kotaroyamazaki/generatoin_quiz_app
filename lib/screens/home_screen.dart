@@ -70,14 +70,28 @@ class HomeScreen extends ConsumerWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    subtitle: Text(
-                      'スコア: $score / 50',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey,
+                    trailing: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: score.toString(),
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: score == 50 ? Colors.red : Colors.black,
+                            ),
+                          ),
+                          const TextSpan(
+                            text: ' / 50点',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    trailing: const Icon(Icons.arrow_forward),
                     onTap: () async {
                       final quizzes = await quizService.loadQuizzes(year);
                       Navigator.push(
