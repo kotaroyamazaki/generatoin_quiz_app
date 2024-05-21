@@ -19,6 +19,7 @@ class QuizScreen extends ConsumerStatefulWidget {
 class QuizScreenState extends ConsumerState<QuizScreen> {
   int _currentQuizIndex = 0;
   int _score = 0;
+  int _lives = 3;
   late StorageService _storageService;
   late List<Quiz> _shuffledQuizzes;
 
@@ -51,6 +52,10 @@ class QuizScreenState extends ConsumerState<QuizScreen> {
         _score++;
       });
       _storageService.saveAchievement(widget.year, _score);
+    } else {
+      setState(() {
+        _lives--;
+      });
     }
 
     _showFeedbackDialog(isCorrect, selectedOption, currentQuiz);
@@ -114,7 +119,9 @@ class QuizScreenState extends ConsumerState<QuizScreen> {
             onPressed: () {
               Navigator.of(context).pop();
               setState(() {
-                if (_currentQuizIndex < _shuffledQuizzes.length - 1) {
+                if (_lives <= 0) {
+                  _showGameOverDialog();
+                } else if (_currentQuizIndex < _shuffledQuizzes.length - 1) {
                   _currentQuizIndex++;
                 } else {
                   _showCompletionDialog();
@@ -176,6 +183,53 @@ class QuizScreenState extends ConsumerState<QuizScreen> {
     );
   }
 
+  void _showGameOverDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        title: const Column(
+          children: [
+            Icon(Icons.sentiment_very_dissatisfied,
+                color: Colors.red, size: 50),
+            SizedBox(height: 10),
+            Text(
+              'ゲームオーバー',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              '残念ですが、体力がなくなりました。',
+              style: TextStyle(fontSize: 18),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              '最終スコア: $_score',
+              style: const TextStyle(
+                  fontSize: 22, fontWeight: FontWeight.bold, color: Colors.red),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+            },
+            child: const Text('OK', style: TextStyle(fontSize: 18)),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final currentQuiz = _shuffledQuizzes[_currentQuizIndex];
@@ -195,6 +249,7 @@ class QuizScreenState extends ConsumerState<QuizScreen> {
               const SizedBox(height: 20),
               _buildOptionsList(currentQuiz),
               const SizedBox(height: 20),
+              _buildLives(),
               _buildScore(),
             ],
           ),
@@ -239,6 +294,19 @@ class QuizScreenState extends ConsumerState<QuizScreen> {
           ),
         );
       }).toList(),
+    );
+  }
+
+  Widget _buildLives() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: List.generate(3, (index) {
+        return Icon(
+          index < _lives ? Icons.favorite : Icons.favorite_border,
+          color: Colors.red,
+          size: 30,
+        );
+      }),
     );
   }
 
