@@ -40,7 +40,7 @@ class QuizScreenState extends ConsumerState<QuizScreen> {
   Future<void> _loadScore() async {
     final savedScore = await _storageService.getAchievement(widget.year);
     setState(() {
-      _score = savedScore;
+      _score = savedScore ?? 0;
     });
   }
 

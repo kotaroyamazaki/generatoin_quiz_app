@@ -6,8 +6,8 @@ class StorageService {
     prefs.setInt(key, value);
   }
 
-  Future<int> getAchievement(String key) async {
+  Future<int?> getAchievement(String key) async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getInt(key) ?? 0;
+    return prefs.getInt(key);
   }
 }
