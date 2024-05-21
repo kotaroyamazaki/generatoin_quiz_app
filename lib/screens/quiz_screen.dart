@@ -4,6 +4,7 @@ import 'package:education_quiz_app/services/storage_service.dart';
 import 'package:education_quiz_app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'dart:math';
 
 class QuizScreen extends ConsumerStatefulWidget {
   final String year;
@@ -19,12 +20,14 @@ class QuizScreenState extends ConsumerState<QuizScreen> {
   int _currentQuizIndex = 0;
   int _score = 0;
   late StorageService _storageService;
+  late List<Quiz> _shuffledQuizzes;
 
   @override
   void initState() {
     super.initState();
     _storageService = ref.read(storageServiceProvider);
     _loadScore();
+    _shuffleQuizzes();
   }
 
   Future<void> _loadScore() async {
@@ -34,8 +37,13 @@ class QuizScreenState extends ConsumerState<QuizScreen> {
     });
   }
 
+  void _shuffleQuizzes() {
+    _shuffledQuizzes = List<Quiz>.from(widget.quizzes);
+    _shuffledQuizzes.shuffle(Random());
+  }
+
   void _submitAnswer(String selectedOption) {
-    final currentQuiz = widget.quizzes[_currentQuizIndex];
+    final currentQuiz = _shuffledQuizzes[_currentQuizIndex];
     bool isCorrect = currentQuiz.answer == selectedOption;
 
     if (isCorrect) {
@@ -106,7 +114,7 @@ class QuizScreenState extends ConsumerState<QuizScreen> {
             onPressed: () {
               Navigator.of(context).pop();
               setState(() {
-                if (_currentQuizIndex < widget.quizzes.length - 1) {
+                if (_currentQuizIndex < _shuffledQuizzes.length - 1) {
                   _currentQuizIndex++;
                 } else {
                   _showCompletionDialog();
@@ -170,7 +178,7 @@ class QuizScreenState extends ConsumerState<QuizScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final currentQuiz = widget.quizzes[_currentQuizIndex];
+    final currentQuiz = _shuffledQuizzes[_currentQuizIndex];
     return Scaffold(
       appBar: AppBar(
         title: Text('${widget.year}年のクイズ'),

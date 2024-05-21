@@ -30,24 +30,43 @@ class HomeScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('あのときなにがあった？クイズ'),
+        backgroundColor: Colors.indigo,
       ),
-      body: ListView(
-        children: List.generate(2023 - 2000 + 1, (index) {
-          final year = (2000 + index).toString();
-          return ListTile(
-            title: Text('$year年のクイズ'),
-            onTap: () async {
-              final quizzes = await quizService.loadQuizzes(year);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      QuizScreen(year: year, quizzes: quizzes),
+      body: Container(
+        decoration: backgroundDecoration,
+        child: ListView(
+          padding: const EdgeInsets.all(16.0),
+          children: List.generate(2023 - 2000 + 1, (index) {
+            final year = (2023 - index).toString();
+            return Card(
+              margin: const EdgeInsets.symmetric(vertical: 10.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              elevation: 5.0,
+              child: ListTile(
+                title: Text(
+                  '$year年のクイズ',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              );
-            },
-          );
-        }),
+                trailing: const Icon(Icons.arrow_forward),
+                onTap: () async {
+                  final quizzes = await quizService.loadQuizzes(year);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          QuizScreen(year: year, quizzes: quizzes),
+                    ),
+                  );
+                },
+              ),
+            );
+          }),
+        ),
       ),
     );
   }
