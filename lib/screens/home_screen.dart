@@ -37,57 +37,59 @@ class HomeScreen extends ConsumerWidget {
       ),
       body: Container(
         decoration: backgroundDecoration,
-        child: FutureBuilder<Map<String, int>>(
-          future: _loadScores(storageService),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            }
+        child: SafeArea(
+          child: FutureBuilder<Map<String, int>>(
+            future: _loadScores(storageService),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
 
-            if (snapshot.hasError) {
-              return const Center(child: Text('エラーが発生しました。'));
-            }
+              if (snapshot.hasError) {
+                return const Center(child: Text('エラーが発生しました。'));
+              }
 
-            final scores = snapshot.data ?? {};
+              final scores = snapshot.data ?? {};
 
-            return ListView(
-              padding: const EdgeInsets.all(16.0),
-              children: List.generate(2023 - 2000 + 1, (index) {
-                final year = (2023 - index).toString();
-                final score = scores[year] ?? '--';
+              return ListView(
+                padding: const EdgeInsets.all(16.0),
+                children: List.generate(2023 - 2000 + 1, (index) {
+                  final year = (2023 - index).toString();
+                  final score = scores[year] ?? '--';
 
-                return Card(
-                  margin: const EdgeInsets.symmetric(vertical: 10.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  elevation: 5.0,
-                  child: ListTile(
-                    contentPadding: const EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 20.0),
-                    title: Text(
-                      '$year年のクイズ',
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  return Card(
+                    margin: const EdgeInsets.symmetric(vertical: 10.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
                     ),
-                    trailing: _buildScoreDisplay(score),
-                    onTap: () async {
-                      final quizzes = await quizService.loadQuizzes(year);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              QuizScreen(year: year, quizzes: quizzes),
+                    elevation: 5.0,
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 20.0),
+                      title: Text(
+                        '$year年のクイズ',
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
-                      );
-                    },
-                  ),
-                );
-              }),
-            );
-          },
+                      ),
+                      trailing: _buildScoreDisplay(score),
+                      onTap: () async {
+                        final quizzes = await quizService.loadQuizzes(year);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                QuizScreen(year: year, quizzes: quizzes),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                }),
+              );
+            },
+          ),
         ),
       ),
     );

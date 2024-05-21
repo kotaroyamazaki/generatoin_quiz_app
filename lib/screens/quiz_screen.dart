@@ -25,7 +25,7 @@ class QuizScreen extends ConsumerStatefulWidget {
 class QuizScreenState extends ConsumerState<QuizScreen> {
   int _currentQuizIndex = 0;
   int _score = 0;
-  int _lives = 3;
+  int _lives = 5;
   late StorageService _storageService;
   late List<Quiz> _shuffledQuizzes;
 

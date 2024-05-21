@@ -9,7 +9,7 @@ class Lives extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(3, (index) {
+      children: List.generate(5, (index) {
         return Icon(
           index < lives ? Icons.favorite : Icons.favorite_border,
           color: Colors.red,
