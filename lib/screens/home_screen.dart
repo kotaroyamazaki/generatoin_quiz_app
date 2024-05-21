@@ -59,39 +59,20 @@ class HomeScreen extends ConsumerWidget {
                 return Card(
                   margin: const EdgeInsets.symmetric(vertical: 10.0),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                    borderRadius: BorderRadius.circular(15.0),
                   ),
                   elevation: 5.0,
                   child: ListTile(
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 10.0, horizontal: 20.0),
                     title: Text(
                       '$year年のクイズ',
                       style: const TextStyle(
-                        fontSize: 18,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    trailing: RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: score.toString(),
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: score == 50 ? Colors.red : Colors.black,
-                            ),
-                          ),
-                          const TextSpan(
-                            text: ' / 50点',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    trailing: _buildScoreDisplay(score),
                     onTap: () async {
                       final quizzes = await quizService.loadQuizzes(year);
                       Navigator.push(
@@ -121,5 +102,40 @@ class HomeScreen extends ConsumerWidget {
       }
     }
     return scores;
+  }
+
+  Widget _buildScoreDisplay(dynamic score) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(
+          Icons.star,
+          color: score == 50 ? Colors.red : Colors.grey,
+        ),
+        const SizedBox(width: 5),
+        RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: score.toString(),
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: score == 50 ? Colors.red : Colors.black,
+                ),
+              ),
+              const TextSpan(
+                text: ' / 50点',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }
