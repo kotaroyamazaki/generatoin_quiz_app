@@ -28,3 +28,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/quizzes/2020.json
+    - assets/quizzes/2021.json
