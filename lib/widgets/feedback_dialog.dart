@@ -27,15 +27,6 @@ void showFeedbackDialog(BuildContext context, bool isCorrect, String userAnswer,
         children: [
           const Divider(),
           const Text(
-            'あなたの回答:',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-          ),
-          Text(
-            userAnswer,
-            style: const TextStyle(fontSize: 18, color: Colors.black54),
-          ),
-          const SizedBox(height: 10),
-          const Text(
             '正解:',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
@@ -43,6 +34,17 @@ void showFeedbackDialog(BuildContext context, bool isCorrect, String userAnswer,
             quiz.answer,
             style: const TextStyle(fontSize: 18, color: Colors.black54),
           ),
+          if (!isCorrect) ...[
+            const SizedBox(height: 10),
+            const Text(
+              'あなたの回答:',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            Text(
+              userAnswer,
+              style: const TextStyle(fontSize: 18, color: Colors.black54),
+            ),
+          ],
           const SizedBox(height: 10),
           const Divider(),
           const Text(

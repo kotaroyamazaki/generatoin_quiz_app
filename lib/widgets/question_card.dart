@@ -21,8 +21,7 @@ class QuestionCard extends StatelessWidget {
           child: Center(
             child: Text(
               quiz.question,
-              style: const TextStyle(
-                  fontSize: 20, fontWeight: FontWeight.bold, color: black),
+              style: const TextStyle(fontSize: 18, color: black),
             ),
           ),
         ),
