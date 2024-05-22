@@ -1,4 +1,5 @@
 import 'package:education_quiz_app/models/quiz.dart';
+import 'package:education_quiz_app/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 class QuestionCard extends StatelessWidget {
@@ -20,7 +21,8 @@ class QuestionCard extends StatelessWidget {
           child: Center(
             child: Text(
               quiz.question,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                  fontSize: 20, fontWeight: FontWeight.bold, color: black),
             ),
           ),
         ),
