@@ -17,9 +17,11 @@ class QuestionCard extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Text(
-            quiz.question,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          child: Center(
+            child: Text(
+              quiz.question,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
           ),
         ),
       ),
