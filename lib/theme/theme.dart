@@ -1,3 +1,4 @@
+import 'package:education_quiz_app/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,7 +15,7 @@ final ThemeData appTheme = ThemeData(
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      backgroundColor: Colors.indigo,
+      backgroundColor: Color(0xFFBBADA0),
       //   onPrimary: Colors.white
 
       textStyle: TextStyle(fontSize: 16),
@@ -25,7 +26,7 @@ final ThemeData appTheme = ThemeData(
     ),
   ),
   appBarTheme: AppBarTheme(
-    backgroundColor: Colors.indigo,
+    backgroundColor: primaryColor,
     titleTextStyle: TextStyle(
       fontSize: 20,
       fontWeight: FontWeight.bold,
@@ -34,10 +35,10 @@ final ThemeData appTheme = ThemeData(
   ),
 );
 
-final BoxDecoration backgroundDecoration = BoxDecoration(
-  gradient: LinearGradient(
-    colors: [Colors.indigo.shade200, Colors.indigo.shade800],
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-  ),
-);
+final BoxDecoration backgroundDecoration = BoxDecoration(color: primaryColor
+    // gradient: LinearGradient(
+    //   colors: [Colors.indigo.shade200, Colors.indigo.shade800],
+    //   begin: Alignment.topCenter,
+    //   end: Alignment.bottomCenter,
+    // ),
+    );

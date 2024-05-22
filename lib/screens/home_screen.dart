@@ -33,7 +33,6 @@ class HomeScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('あのときなにがあった？クイズ'),
-        backgroundColor: Colors.indigo,
       ),
       body: Container(
         decoration: backgroundDecoration,

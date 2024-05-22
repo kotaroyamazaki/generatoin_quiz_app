@@ -83,7 +83,6 @@ class QuizScreenState extends ConsumerState<QuizScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('${widget.year}年のクイズ'),
-        backgroundColor: Colors.indigo,
       ),
       body: Container(
         decoration: backgroundDecoration,
@@ -92,11 +91,12 @@ class QuizScreenState extends ConsumerState<QuizScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Lives(lives: _lives),
+              const SizedBox(height: 8),
               QuestionCard(quiz: currentQuiz),
               const SizedBox(height: 20),
               OptionsList(quiz: currentQuiz, onOptionSelected: _submitAnswer),
               const SizedBox(height: 20),
-              Lives(lives: _lives),
               _buildScore(),
             ],
           ),

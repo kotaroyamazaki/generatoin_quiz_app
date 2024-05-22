@@ -1,4 +1,5 @@
 import 'package:education_quiz_app/models/quiz.dart';
+import 'package:education_quiz_app/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 class OptionsList extends StatelessWidget {
@@ -17,10 +18,11 @@ class OptionsList extends StatelessWidget {
           child: ElevatedButton(
             onPressed: () => onOptionSelected(option),
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.indigo,
-              foregroundColor: Colors.white,
+              backgroundColor: Colors.white,
+              foregroundColor: black,
               minimumSize: const Size(double.infinity, 50),
-              textStyle: const TextStyle(fontSize: 18),
+              textStyle:
+                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
               ),
