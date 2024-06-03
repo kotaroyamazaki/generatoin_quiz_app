@@ -18,6 +18,7 @@ dependencies:
   cupertino_icons: ^1.0.6
   flutter_riverpod: ^2.5.1
   google_fonts: ^4.0.4
+  audioplayers: ^6.0.0
 
 dev_dependencies:
   flutter_test:
@@ -36,3 +37,5 @@ flutter:
     - assets/quizzes/2021.json
     - assets/quizzes/2022.json
     - assets/quizzes/2023.json
+    - assets/sounds/correct.mp3
+    - assets/sounds/incorrect.mp3

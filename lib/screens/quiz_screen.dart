@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:education_quiz_app/models/quiz.dart';
 import 'package:education_quiz_app/providers/providers.dart';
 import 'package:education_quiz_app/services/storage_service.dart';
@@ -28,6 +29,7 @@ class QuizScreenState extends ConsumerState<QuizScreen> {
   int _lives = 5;
   late StorageService _storageService;
   late List<Quiz> _shuffledQuizzes;
+  final player = AudioPlayer();
 
   @override
   void initState() {
@@ -37,7 +39,7 @@ class QuizScreenState extends ConsumerState<QuizScreen> {
     _shuffleQuizzes();
   }
 
-  Future<void> _loadScore() async {
+  Future<void> loadScore() async {
     final savedScore = await _storageService.getAchievement(widget.year);
     setState(() {
       _score = savedScore ?? 0;
@@ -54,6 +56,7 @@ class QuizScreenState extends ConsumerState<QuizScreen> {
     bool isCorrect = currentQuiz.answer == selectedOption;
 
     if (isCorrect) {
+      player.play(AssetSource('sounds/correct.mp3'));
       setState(() {
         _score++;
       });
@@ -64,6 +67,7 @@ class QuizScreenState extends ConsumerState<QuizScreen> {
         }
       });
     } else {
+      player.play(AssetSource('sounds/incorrect.mp3'));
       setState(() {
         _lives--;
       });
