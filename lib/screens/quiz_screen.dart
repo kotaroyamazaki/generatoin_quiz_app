@@ -33,7 +33,7 @@ class QuizScreenState extends ConsumerState<QuizScreen> {
   void initState() {
     super.initState();
     _storageService = ref.read(storageServiceProvider);
-    _loadScore();
+    //   _loadScore();
     _shuffleQuizzes();
   }
 
@@ -57,7 +57,12 @@ class QuizScreenState extends ConsumerState<QuizScreen> {
       setState(() {
         _score++;
       });
-      _storageService.saveAchievement(widget.year, _score);
+      // Update storage if current score exceeds high score
+      _storageService.getAchievement(widget.year).then((highScore) {
+        if (_score > (highScore ?? 0)) {
+          _storageService.saveAchievement(widget.year, _score);
+        }
+      });
     } else {
       setState(() {
         _lives--;
@@ -91,13 +96,18 @@ class QuizScreenState extends ConsumerState<QuizScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Lives(lives: _lives),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Lives(lives: _lives),
+                  _buildScore(),
+                ],
+              ),
               const SizedBox(height: 8),
               QuestionCard(quiz: currentQuiz),
               const SizedBox(height: 20),
               OptionsList(quiz: currentQuiz, onOptionSelected: _submitAnswer),
               const SizedBox(height: 20),
-              _buildScore(),
             ],
           ),
         ),
