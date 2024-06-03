@@ -39,3 +39,6 @@ flutter:
     - assets/quizzes/2023.json
     - assets/sounds/correct.mp3
     - assets/sounds/incorrect.mp3
+    - assets/sounds/question.mp3
+    - assets/sounds/gameover.mp3
+    - assets/sounds/select.mp3

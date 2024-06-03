@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:education_quiz_app/providers/providers.dart';
 import 'package:education_quiz_app/screens/quiz_screen.dart';
 import 'package:education_quiz_app/services/storage_service.dart';
@@ -28,6 +29,7 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final player = AudioPlayer();
     final quizService = ref.watch(quizServiceProvider);
     final storageService = ref.watch(storageServiceProvider);
 
@@ -76,6 +78,8 @@ class HomeScreen extends ConsumerWidget {
                       trailing: _buildScoreDisplay(score),
                       onTap: () async {
                         final quizzes = await quizService.loadQuizzes(year);
+                        if (!context.mounted) return;
+                        player.play(AssetSource('sounds/select.mp3'));
                         Navigator.push(
                           context,
                           MaterialPageRoute(

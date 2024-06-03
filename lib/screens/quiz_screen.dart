@@ -37,6 +37,7 @@ class QuizScreenState extends ConsumerState<QuizScreen> {
     _storageService = ref.read(storageServiceProvider);
     //   _loadScore();
     _shuffleQuizzes();
+    player.play(AssetSource('sounds/question.mp3'));
   }
 
   Future<void> loadScore() async {
@@ -76,14 +77,22 @@ class QuizScreenState extends ConsumerState<QuizScreen> {
     showFeedbackDialog(context, isCorrect, selectedOption, currentQuiz, () {
       setState(() {
         if (_lives <= 0) {
+          player.play(AssetSource('sounds/gameover.mp3'));
           showGameOverDialog(context, _score);
         } else if (_currentQuizIndex < _shuffledQuizzes.length - 1) {
           _currentQuizIndex++;
+          player.play(AssetSource('sounds/question.mp3'));
         } else {
           showCompletionDialog(context, _score);
         }
       });
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    player.dispose();
   }
 
   @override
