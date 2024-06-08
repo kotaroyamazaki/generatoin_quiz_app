@@ -36,7 +36,7 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
   void initState() {
     super.initState();
     _storageService = ref.read(storageServiceProvider);
-    //   _loadScore();
+    // _loadScore();
     _shuffleQuizzes();
     player.play(AssetSource('sounds/question.mp3'));
   }
@@ -51,6 +51,9 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
   void _shuffleQuizzes() {
     _shuffledQuizzes = List<Quiz>.from(widget.quizzes);
     _shuffledQuizzes.shuffle(Random());
+    for (var quiz in _shuffledQuizzes) {
+      quiz.options.shuffle(Random());
+    }
   }
 
   void _submitAnswer(String selectedOption) {

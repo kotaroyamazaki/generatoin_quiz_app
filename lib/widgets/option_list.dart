@@ -11,10 +11,8 @@ class OptionsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final shuffledOptions = List<String>.from(quiz.options)..shuffle();
-
     return Column(
-      children: shuffledOptions.map((option) {
+      children: quiz.options.map((option) {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: ElevatedButton(
