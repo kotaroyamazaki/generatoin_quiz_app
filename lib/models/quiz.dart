@@ -21,4 +21,14 @@ class Quiz {
       tags: List<String>.from(json['tags']),
     );
   }
+
+  factory Quiz.fromFirestore(Map<String, dynamic> data) {
+    return Quiz(
+      question: data['question'] ?? '',
+      options: List<String>.from(data['options']),
+      answer: data['answer'] ?? '',
+      explanation: data['explanation'] ?? '',
+      tags: List<String>.from(data['tags']),
+    );
+  }
 }

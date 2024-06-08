@@ -1,6 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:education_quiz_app/models/quiz.dart';
-import 'package:education_quiz_app/providers/providers.dart';
+import 'package:education_quiz_app/provider/providers.dart';
 import 'package:education_quiz_app/services/storage_service.dart';
 import 'package:education_quiz_app/theme/theme.dart';
 import 'package:education_quiz_app/widgets/conpleteion_dialog.dart';
@@ -13,17 +13,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:math';
 
-class QuizScreen extends ConsumerStatefulWidget {
+class QuizDetailScreen extends ConsumerStatefulWidget {
   final String year;
   final List<Quiz> quizzes;
 
-  const QuizScreen({super.key, required this.year, required this.quizzes});
+  const QuizDetailScreen(
+      {super.key, required this.year, required this.quizzes});
 
   @override
   QuizScreenState createState() => QuizScreenState();
 }
 
-class QuizScreenState extends ConsumerState<QuizScreen> {
+class QuizScreenState extends ConsumerState<QuizDetailScreen> {
   int _currentQuizIndex = 0;
   int _score = 0;
   int _lives = 5;

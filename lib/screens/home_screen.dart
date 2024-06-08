@@ -1,28 +1,13 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:education_quiz_app/provider/providers.dart';
 import 'package:education_quiz_app/providers/providers.dart';
 import 'package:education_quiz_app/screens/quiz_screen.dart';
+
 import 'package:education_quiz_app/services/storage_service.dart';
 import 'package:education_quiz_app/theme/colors.dart';
 import 'package:education_quiz_app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-void main() {
-  runApp(const ProviderScope(child: MyApp()));
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'あのときなにがあった？クイズ',
-      theme: appTheme,
-      home: const HomeScreen(),
-    );
-  }
-}
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -30,7 +15,7 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final player = AudioPlayer();
-    final quizService = ref.watch(quizServiceProvider);
+    final firestoreService = ref.watch(firestoreServiceProvider);
     final storageService = ref.watch(storageServiceProvider);
 
     return Scaffold(
@@ -77,14 +62,15 @@ class HomeScreen extends ConsumerWidget {
                       ),
                       trailing: _buildScoreDisplay(score),
                       onTap: () async {
-                        final quizzes = await quizService.loadQuizzes(year);
+                        final quizzes =
+                            await firestoreService.loadQuizzes(year);
                         if (!context.mounted) return;
                         player.play(AssetSource('sounds/select.mp3'));
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                QuizScreen(year: year, quizzes: quizzes),
+                                QuizDetailScreen(year: year, quizzes: quizzes),
                           ),
                         );
                       },
