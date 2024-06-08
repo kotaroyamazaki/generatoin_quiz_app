@@ -1,6 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:education_quiz_app/provider/providers.dart';
-import 'package:education_quiz_app/providers/providers.dart';
 import 'package:education_quiz_app/screens/quiz_screen.dart';
 
 import 'package:education_quiz_app/services/storage_service.dart';
