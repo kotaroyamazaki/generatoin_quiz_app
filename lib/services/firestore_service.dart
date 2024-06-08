@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import '../models/quiz.dart';
 
 class FirestoreService {
@@ -11,12 +12,12 @@ class FirestoreService {
         throw Exception("No quizzes found for the year $collectionName");
       }
       return snapshot.docs.map((doc) {
-        final data = doc.data() as Map<String, dynamic>;
+        final data = doc.data();
         return Quiz.fromFirestore(data);
       }).toList();
     } catch (e) {
-      print("Error loading quizzes: $e");
-      rethrow;
+      debugPrint("Error loading quizzes: $e");
+      return [];
     }
   }
 }

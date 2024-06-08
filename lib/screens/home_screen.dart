@@ -38,7 +38,7 @@ class HomeScreen extends ConsumerWidget {
 
               return ListView(
                 padding: const EdgeInsets.all(16.0),
-                children: List.generate(2023 - 2000 + 1, (index) {
+                children: List.generate(2023 - 2010 + 1, (index) {
                   final year = (2023 - index).toString();
                   final score = scores[year] ?? '--';
 
@@ -62,6 +62,15 @@ class HomeScreen extends ConsumerWidget {
                       onTap: () async {
                         final quizzes =
                             await firestoreService.loadQuizzes(year);
+                        if (quizzes.isEmpty) {
+                          if (!context.mounted) return;
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('クイズが見つかりませんでした。'),
+                            ),
+                          );
+                          return;
+                        }
                         if (!context.mounted) return;
                         player.play(AssetSource('sounds/select.mp3'));
                         Navigator.push(
