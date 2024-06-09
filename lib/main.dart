@@ -1,6 +1,6 @@
-import 'package:education_quiz_app/firebase_options.dart';
-import 'package:education_quiz_app/screens/home_screen.dart';
-import 'package:education_quiz_app/theme/theme.dart';
+import 'package:generation_quiz_app/firebase_options.dart';
+import 'package:generation_quiz_app/screens/home_screen.dart';
+import 'package:generation_quiz_app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';

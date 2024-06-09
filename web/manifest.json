@@ -1,6 +1,6 @@
 {
-    "name": "education_quiz_app",
-    "short_name": "education_quiz_app",
+    "name": "generation_quiz_app",
+    "short_name": "generation_quiz_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

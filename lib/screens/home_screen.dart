@@ -1,9 +1,9 @@
 import 'package:audioplayers/audioplayers.dart';
-import 'package:education_quiz_app/provider/providers.dart';
-import 'package:education_quiz_app/screens/quiz_screen.dart';
-import 'package:education_quiz_app/services/storage_service.dart';
-import 'package:education_quiz_app/theme/colors.dart';
-import 'package:education_quiz_app/theme/theme.dart';
+import 'package:generation_quiz_app/provider/providers.dart';
+import 'package:generation_quiz_app/screens/quiz_screen.dart';
+import 'package:generation_quiz_app/services/storage_service.dart';
+import 'package:generation_quiz_app/theme/colors.dart';
+import 'package:generation_quiz_app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

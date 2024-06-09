@@ -1,5 +1,5 @@
-import 'package:education_quiz_app/models/quiz.dart';
-import 'package:education_quiz_app/theme/colors.dart';
+import 'package:generation_quiz_app/models/quiz.dart';
+import 'package:generation_quiz_app/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 class OptionsList extends StatelessWidget {
@@ -20,7 +20,7 @@ class OptionsList extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white,
               foregroundColor: black,
-              minimumSize: const Size(double.infinity, 50),
+              minimumSize: const Size(double.infinity, 64),
               textStyle:
                   const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               shape: RoundedRectangleBorder(

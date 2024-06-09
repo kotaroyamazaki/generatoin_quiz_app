@@ -1,5 +1,5 @@
-import 'package:education_quiz_app/models/quiz.dart';
-import 'package:education_quiz_app/theme/colors.dart';
+import 'package:generation_quiz_app/models/quiz.dart';
+import 'package:generation_quiz_app/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 class QuestionCard extends StatelessWidget {

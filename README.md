@@ -1,4 +1,4 @@
-# education_quiz_app
+# generation_quiz_app
 
 A new Flutter project.
 

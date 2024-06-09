@@ -1,16 +1,16 @@
 import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
-import 'package:education_quiz_app/models/quiz.dart';
-import 'package:education_quiz_app/provider/providers.dart';
-import 'package:education_quiz_app/services/storage_service.dart';
-import 'package:education_quiz_app/theme/theme.dart';
-import 'package:education_quiz_app/widgets/conpleteion_dialog.dart';
-import 'package:education_quiz_app/widgets/feedback_dialog.dart';
-import 'package:education_quiz_app/widgets/game_over_dialog.dart';
-import 'package:education_quiz_app/widgets/lives.dart';
-import 'package:education_quiz_app/widgets/option_list.dart';
-import 'package:education_quiz_app/widgets/question_card.dart';
+import 'package:generation_quiz_app/models/quiz.dart';
+import 'package:generation_quiz_app/provider/providers.dart';
+import 'package:generation_quiz_app/services/storage_service.dart';
+import 'package:generation_quiz_app/theme/theme.dart';
+import 'package:generation_quiz_app/widgets/conpleteion_dialog.dart';
+import 'package:generation_quiz_app/widgets/feedback_dialog.dart';
+import 'package:generation_quiz_app/widgets/game_over_dialog.dart';
+import 'package:generation_quiz_app/widgets/lives.dart';
+import 'package:generation_quiz_app/widgets/option_list.dart';
+import 'package:generation_quiz_app/widgets/question_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -63,6 +63,6 @@ class DefaultFirebaseOptions {
     messagingSenderId: '440650206471',
     projectId: 'generation-quiz',
     storageBucket: 'generation-quiz.appspot.com',
-    iosBundleId: 'com.example.educationQuizApp',
+    iosBundleId: 'com.example.generationQuizApp',
   );
 }
