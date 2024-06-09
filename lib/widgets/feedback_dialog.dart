@@ -1,5 +1,6 @@
 import 'package:generation_quiz_app/models/quiz.dart';
 import 'package:flutter/material.dart';
+import 'package:generation_quiz_app/theme/colors.dart';
 import 'package:generation_quiz_app/widgets/button.dart';
 
 void showFeedbackDialog(BuildContext context, bool isCorrect, String userAnswer,
@@ -18,7 +19,11 @@ void showFeedbackDialog(BuildContext context, bool isCorrect, String userAnswer,
           const SizedBox(height: 10),
           Text(
             isCorrect ? '正解！' : '不正解',
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: black,
+            ),
           ),
         ],
       ),
@@ -36,8 +41,11 @@ void showFeedbackDialog(BuildContext context, bool isCorrect, String userAnswer,
                     const Divider(),
                     const Text(
                       '正解:',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: black,
+                      ),
                     ),
                     Text(
                       quiz.answer,
@@ -49,7 +57,10 @@ void showFeedbackDialog(BuildContext context, bool isCorrect, String userAnswer,
                       const Text(
                         'あなたの回答:',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: black,
+                        ),
                       ),
                       Text(
                         userAnswer,
@@ -61,8 +72,11 @@ void showFeedbackDialog(BuildContext context, bool isCorrect, String userAnswer,
                     const Divider(),
                     const Text(
                       '解説:',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: black,
+                      ),
                     ),
                     Text(
                       quiz.explanation,

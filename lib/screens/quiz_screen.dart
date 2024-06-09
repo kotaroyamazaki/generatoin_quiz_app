@@ -125,7 +125,8 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
             children: [
               Text(
                 '問題 ${_currentQuizIndex + 1} / $maxQuizNum',
-                style: const TextStyle(fontSize: 16, color: black),
+                style: const TextStyle(
+                    fontSize: 16, color: black, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 4),
               quizProgressBar(progress),
@@ -134,14 +135,7 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Lives(lives: _lives),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        const Text('得点: ',
-                            style: TextStyle(fontSize: 16, color: black)),
-                        _buildScore(),
-                      ]),
+                  _buildScore(),
                 ],
               ),
               const SizedBox(height: 20),
@@ -172,19 +166,32 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
         child: Container(
           padding: const EdgeInsets.all(8.0),
           decoration: BoxDecoration(
-            color: primaryColor,
+            color: grey,
             borderRadius: BorderRadius.circular(8.0),
           ),
-          height: 48,
-          width: 48,
-          child: Text(
-            '$_score',
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 18,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
+          height: 64,
+          width: 64,
+          child: Column(
+            children: [
+              const Text(
+                '得点',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: black,
+                ),
+              ),
+              const SizedBox(width: 4),
+              Text(
+                '$_score',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 18,
+                  color: black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
           ),
         ));
   }
