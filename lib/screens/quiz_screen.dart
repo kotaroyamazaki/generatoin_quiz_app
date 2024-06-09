@@ -7,6 +7,7 @@ import 'package:generation_quiz_app/models/singletons_data.dart';
 import 'package:generation_quiz_app/provider/score_notifier.dart';
 import 'package:generation_quiz_app/theme/colors.dart';
 import 'package:generation_quiz_app/theme/theme.dart';
+import 'package:generation_quiz_app/widgets/admob_interstatial.dart';
 import 'package:generation_quiz_app/widgets/conpleteion_dialog.dart';
 import 'package:generation_quiz_app/widgets/feedback_dialog.dart';
 import 'package:generation_quiz_app/widgets/game_over_dialog.dart';
@@ -36,11 +37,13 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
   int _lives = 5;
   late List<Quiz> _shuffledQuizzes;
   final player = AudioPlayer();
+  AdInterstitial adInterstitial = AdInterstitial();
 
   @override
   void initState() {
     super.initState();
     _shuffleQuizzes();
+    adInterstitial.init();
     player.play(AssetSource('sounds/question.mp3'));
   }
 
@@ -74,21 +77,22 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
       setState(() {
         if (_lives <= 0) {
           player.play(AssetSource('sounds/gameover.mp3'));
-          showGameOverDialog(
-            context,
-            _score,
-            _currentQuizIndex + 1,
-            () {
-              setState(() {
-                _currentQuizIndex = 0;
-                _score = 0;
-                _lives = 5;
-                _shuffleQuizzes();
-              });
-              player.play(AssetSource('sounds/question.mp3'));
-              Navigator.pop(context);
-            },
-          );
+          adInterstitial.showAd(
+              onDismiss: () => showGameOverDialog(
+                    context,
+                    _score,
+                    _currentQuizIndex + 1,
+                    () {
+                      setState(() {
+                        _currentQuizIndex = 0;
+                        _score = 0;
+                        _lives = 5;
+                        _shuffleQuizzes();
+                      });
+                      player.play(AssetSource('sounds/question.mp3'));
+                      Navigator.pop(context);
+                    },
+                  ));
         } else if (_currentQuizIndex < _shuffledQuizzes.length - 1) {
           _currentQuizIndex++;
           player.play(AssetSource('sounds/question.mp3'));

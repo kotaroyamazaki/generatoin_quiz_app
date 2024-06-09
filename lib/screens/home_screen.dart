@@ -6,6 +6,8 @@ import 'package:generation_quiz_app/provider/providers.dart';
 import 'package:generation_quiz_app/provider/score_notifier.dart';
 import 'package:generation_quiz_app/screens/quiz_screen.dart';
 import 'package:generation_quiz_app/theme/colors.dart';
+import 'package:generation_quiz_app/widgets/admob_interstatial.dart';
+import 'package:rate_my_app/rate_my_app.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
