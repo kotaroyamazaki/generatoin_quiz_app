@@ -1,5 +1,6 @@
 import 'package:generation_quiz_app/models/quiz.dart';
 import 'package:flutter/material.dart';
+import 'package:generation_quiz_app/widgets/button.dart';
 
 void showFeedbackDialog(BuildContext context, bool isCorrect, String userAnswer,
     Quiz quiz, Function() onNext) {
@@ -55,17 +56,16 @@ void showFeedbackDialog(BuildContext context, bool isCorrect, String userAnswer,
             quiz.explanation,
             style: const TextStyle(fontSize: 16, color: Colors.black87),
           ),
+          const SizedBox(height: 40),
+          Button(
+            text: '次へ',
+            onPressed: () {
+              Navigator.of(context).pop();
+              onNext();
+            },
+          ),
         ],
       ),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-            onNext();
-          },
-          child: const Text('次へ', style: TextStyle(fontSize: 18)),
-        ),
-      ],
     ),
   );
 }

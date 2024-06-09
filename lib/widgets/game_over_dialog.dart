@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:generation_quiz_app/models/constants.dart';
-import 'package:generation_quiz_app/theme/colors.dart';
+import 'package:generation_quiz_app/widgets/button.dart';
 
 void showGameOverDialog(
     BuildContext context, int score, int totalQuestions, VoidCallback onRetry) {
@@ -85,26 +85,7 @@ void showGameOverDialog(
                           ],
                         ),
                         const SizedBox(height: 20),
-                        SizedBox(
-                          height: 48,
-                          width: MediaQuery.of(context).size.width - 64,
-                          child: ElevatedButton(
-                            onPressed: onRetry,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: primaryColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(24),
-                              ),
-                            ),
-                            child: const Text(
-                              'もう一度挑戦する',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
+                        Button(text: 'もう一度挑戦する', onPressed: onRetry),
                         const SizedBox(height: 12),
                         SizedBox(
                           height: 48,
