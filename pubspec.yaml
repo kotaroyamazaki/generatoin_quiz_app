@@ -39,3 +39,6 @@ flutter:
     - assets/images/game_over_1.png
     - assets/images/game_over_2.png
     - assets/images/game_over_3.png
+    - assets/images/completion_1.png
+    - assets/images/completion_2.png
+    - assets/images/completion_3.png

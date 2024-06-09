@@ -95,29 +95,6 @@ void showGameOverDialog(
                           },
                           isOutline: true,
                         ),
-                        // SizedBox(
-                        //   height: 48,
-                        //   width: MediaQuery.of(context).size.width - 64,
-                        //   child: OutlinedButton(
-                        //     onPressed: () {
-                        //       Navigator.of(context).pop(); // ダイアログを閉じる
-                        //       Navigator.of(context).pop(); // タイトルに戻る
-                        //     },
-                        //     style: OutlinedButton.styleFrom(
-                        //       shape: RoundedRectangleBorder(
-                        //         borderRadius: BorderRadius.circular(24),
-                        //       ),
-                        //     ),
-                        //     child: const Text(
-                        //       'タイトルに戻る',
-                        //       style: TextStyle(
-                        //         fontSize: 16,
-                        //         color: Colors.black,
-                        //         fontWeight: FontWeight.bold,
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
                         const SizedBox(height: 32),
                       ],
                     ),
