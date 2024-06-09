@@ -122,12 +122,12 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Lives(lives: _lives),
-                  Text(
-                    '問題 ${_currentQuizIndex + 1} / $maxQuizNum',
-                    style: const TextStyle(fontSize: 16, color: Colors.white),
-                  ),
                   _buildScore(),
                 ],
+              ),
+              Text(
+                '問題 ${_currentQuizIndex + 1} / $maxQuizNum',
+                style: const TextStyle(fontSize: 16, color: Colors.white),
               ),
               const SizedBox(height: 8),
               QuestionCard(quiz: currentQuiz),
