@@ -2,13 +2,11 @@
 
 # iOSビルドとオープン
 ios:
-	flutter build ipa
-	open build/ios/ipa
+	flutter build ipa && open build/ios/ipa
 
 # Androidビルドとオープン
 android:
-	flutter build appbundle --release
-	open build/app/outputs/bundle/release/
+	flutter build appbundle --release && open build/app/outputs/bundle/release/
 
 # アプリを実行
 run:
