@@ -12,7 +12,7 @@ void showGameOverDialog(BuildContext context, int score) {
           Icon(Icons.sentiment_very_dissatisfied, color: Colors.red, size: 50),
           SizedBox(height: 10),
           Text(
-            'ゲームオーバー',
+            'ゲーム終了',
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
         ],
@@ -22,7 +22,7 @@ void showGameOverDialog(BuildContext context, int score) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            '残念ですが、体力がなくなりました。',
+            '',
             style: TextStyle(fontSize: 18),
           ),
           const SizedBox(height: 10),

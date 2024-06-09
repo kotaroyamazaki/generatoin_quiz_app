@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:generation_quiz_app/models/quiz.dart';
+import 'package:generation_quiz_app/models/singletons_data.dart';
 import 'package:generation_quiz_app/provider/providers.dart';
 import 'package:generation_quiz_app/services/storage_service.dart';
 import 'package:generation_quiz_app/theme/theme.dart';
@@ -13,6 +14,7 @@ import 'package:generation_quiz_app/widgets/option_list.dart';
 import 'package:generation_quiz_app/widgets/question_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class QuizDetailScreen extends ConsumerStatefulWidget {
   final String year;
@@ -114,7 +116,7 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               _buildProgressBar(progress),
               const SizedBox(height: 16),
@@ -134,6 +136,15 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
               const SizedBox(height: 20),
               OptionsList(quiz: currentQuiz, onOptionSelected: _submitAnswer),
               const SizedBox(height: 20),
+              const Expanded(child: SizedBox()),
+              appData.banner == null
+                  ? const SizedBox()
+                  : Container(
+                      alignment: Alignment.center,
+                      width: appData.banner!.size.width.toDouble(),
+                      height: appData.banner!.size.height.toDouble(),
+                      child: AdWidget(ad: appData.banner!),
+                    )
             ],
           ),
         ),

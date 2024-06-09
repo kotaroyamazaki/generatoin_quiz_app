@@ -1,9 +1,14 @@
 import 'package:generation_quiz_app/firebase_options.dart';
+import 'package:generation_quiz_app/models/singletons_data.dart';
 import 'package:generation_quiz_app/screens/home_screen.dart';
 import 'package:generation_quiz_app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:generation_quiz_app/widgets/admob_banner.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+
+BannerAd? myBanner;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,6 +17,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  loadBannerAd();
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -26,4 +32,20 @@ class MyApp extends StatelessWidget {
       home: const HomeScreen(),
     );
   }
+}
+
+void loadBannerAd() async {
+  final bannerId = getAdBannerUnitId(); // 適切な広告ユニットIDを取得
+  myBanner = BannerAd(
+    adUnitId: bannerId,
+    size: AdSize.banner,
+    request: const AdRequest(),
+    listener: BannerAdListener(
+      onAdFailedToLoad: (Ad ad, LoadAdError error) {
+        ad.dispose(); // 広告オブジェクトを破棄
+      },
+    ),
+  );
+  await myBanner!.load(); // 広告のロードを待機
+  appData.banner = myBanner; // 広告オブジェクトをシングルトンに保存
 }
