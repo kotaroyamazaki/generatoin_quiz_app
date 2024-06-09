@@ -6,14 +6,40 @@ import 'package:generation_quiz_app/provider/providers.dart';
 import 'package:generation_quiz_app/provider/score_notifier.dart';
 import 'package:generation_quiz_app/screens/quiz_screen.dart';
 import 'package:generation_quiz_app/theme/colors.dart';
-import 'package:generation_quiz_app/widgets/admob_interstatial.dart';
 import 'package:rate_my_app/rate_my_app.dart';
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  HomeScreenState createState() => HomeScreenState();
+}
+
+class HomeScreenState extends ConsumerState<HomeScreen> {
+  late RateMyApp _rateMyApp;
+
+  @override
+  void initState() {
+    super.initState();
+    _rateMyApp = RateMyApp(
+      preferencesPrefix: 'rateMyApp_',
+      minDays: 0,
+      minLaunches: 3,
+      remindDays: 7,
+      remindLaunches: 10,
+    );
+
+    _rateMyApp.init().then((_) {
+      if (_rateMyApp.shouldOpenDialog) {
+        _rateMyApp.showRateDialog(
+          context,
+        );
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final player = AudioPlayer();
     final firestoreService = ref.watch(firestoreServiceProvider);
     final scores = ref.watch(scoreProvider);
@@ -48,7 +74,6 @@ class HomeScreen extends ConsumerWidget {
                       height: 48,
                       width: 48,
                       decoration: BoxDecoration(
-                        // E8EDF5 color
                         color: const Color(0xFFE8EDF5),
                         borderRadius: BorderRadius.circular(8.0),
                       ),
