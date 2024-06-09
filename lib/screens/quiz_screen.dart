@@ -14,6 +14,7 @@ import 'package:generation_quiz_app/widgets/lives.dart';
 import 'package:generation_quiz_app/widgets/option_list.dart';
 import 'package:generation_quiz_app/widgets/progress_bar.dart';
 import 'package:generation_quiz_app/widgets/question_card.dart';
+import 'package:generation_quiz_app/widgets/score.dart';
 import 'dart:math';
 
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -135,7 +136,7 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Lives(lives: _lives),
-                  _buildScore(),
+                  ScoreWidget(score: _score),
                 ],
               ),
               const SizedBox(height: 20),
@@ -158,41 +159,5 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
         ),
       ),
     );
-  }
-
-  Widget _buildScore() {
-    return Align(
-        alignment: Alignment.centerRight,
-        child: Container(
-          padding: const EdgeInsets.all(8.0),
-          decoration: BoxDecoration(
-            color: grey,
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          height: 64,
-          width: 64,
-          child: Column(
-            children: [
-              const Text(
-                '得点',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: black,
-                ),
-              ),
-              const SizedBox(width: 4),
-              Text(
-                '$_score',
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 18,
-                  color: black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ));
   }
 }
