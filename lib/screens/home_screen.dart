@@ -19,100 +19,87 @@ class HomeScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('あのときなにがあった？クイズ'),
+        title: const Text(
+          'Quizzes',
+          style: TextStyle(fontWeight: FontWeight.bold, color: black),
+        ),
+        backgroundColor: backgroundColor,
+        centerTitle: true,
+        elevation: 0,
       ),
       body: Container(
         decoration: backgroundDecoration,
         child: SafeArea(
           child: scores.isEmpty
               ? const Center(child: CircularProgressIndicator())
-              : ListView.builder(
-                  padding: const EdgeInsets.all(16.0),
+              : ListView.separated(
+                  separatorBuilder: (context, index) => const Divider(
+                    color: grey,
+                    height: 1,
+                  ),
                   itemCount: maxQuizYear - minQuizYear + 1,
                   itemBuilder: (context, index) {
-                    final year = (2023 - index).toString();
+                    final year = (maxQuizYear - index).toString();
                     final score = scores[year] ?? '--';
 
-                    return Card(
-                      margin: const EdgeInsets.symmetric(vertical: 10.0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      elevation: 5.0,
-                      child: ListTile(
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 20.0),
-                        title: Text(
-                          '$year年のクイズ',
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
+                    return ListTile(
+                      leading: Container(
+                        height: 48,
+                        width: 48,
+                        decoration: BoxDecoration(
+                          // E8EDF5 color
+                          color: const Color(0xFFE8EDF5),
+                          borderRadius: BorderRadius.circular(8.0),
                         ),
-                        trailing: _buildScoreDisplay(score),
-                        onTap: () async {
-                          final quizzes =
-                              await firestoreService.loadQuizzes(year);
-                          if (quizzes.isEmpty) {
-                            if (!context.mounted) return;
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('クイズが見つかりませんでした。'),
-                              ),
-                            );
-                            return;
-                          }
+                        child: Icon(Icons.emoji_events_outlined,
+                            size: 24,
+                            color: score == maxQuizNum ? Colors.yellow : black),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 20.0),
+                      title: Text(
+                        '$year年のクイズ',
+                        style: const TextStyle(
+                          color: black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      subtitle: Text(
+                        '得点: ${score != 0 ? score : "--"}/$maxQuizNum 点',
+                        style: const TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                      trailing: const Icon(Icons.arrow_forward_ios,
+                          color: Colors.black),
+                      onTap: () async {
+                        final quizzes =
+                            await firestoreService.loadQuizzes(year);
+                        if (quizzes.isEmpty) {
                           if (!context.mounted) return;
-                          player.play(AssetSource('sounds/select.mp3'));
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => QuizDetailScreen(
-                                  year: year, quizzes: quizzes),
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('クイズが見つかりませんでした。'),
                             ),
                           );
-                        },
-                      ),
+                          return;
+                        }
+                        if (!context.mounted) return;
+                        player.play(AssetSource('sounds/select.mp3'));
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                QuizDetailScreen(year: year, quizzes: quizzes),
+                          ),
+                        );
+                      },
                     );
                   },
                 ),
         ),
       ),
-    );
-  }
-
-  Widget _buildScoreDisplay(dynamic score) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(
-          Icons.star,
-          color: score == maxQuizNum ? Colors.red : Colors.grey,
-        ),
-        const SizedBox(width: 5),
-        RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: score.toString(),
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: score == maxQuizNum ? Colors.red : black,
-                ),
-              ),
-              const TextSpan(
-                text: ' / $maxQuizNum点',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.normal,
-                  color: black,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 }
