@@ -73,7 +73,20 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
       setState(() {
         if (_lives <= 0) {
           player.play(AssetSource('sounds/gameover.mp3'));
-          showGameOverDialog(context, _score);
+          showGameOverDialog(
+            context, _score, _currentQuizIndex + 1,
+//          onRetry
+            () {
+              setState(() {
+                _currentQuizIndex = 0;
+                _score = 0;
+                _lives = 5;
+                _shuffleQuizzes();
+              });
+              player.play(AssetSource('sounds/question.mp3'));
+              Navigator.pop(context);
+            },
+          );
         } else if (_currentQuizIndex < _shuffledQuizzes.length - 1) {
           _currentQuizIndex++;
           player.play(AssetSource('sounds/question.mp3'));

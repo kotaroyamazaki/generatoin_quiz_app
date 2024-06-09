@@ -31,17 +31,11 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/quizzes/2015.json
-    - assets/quizzes/2016.json
-    - assets/quizzes/2017.json
-    - assets/quizzes/2018.json
-    - assets/quizzes/2019.json
-    - assets/quizzes/2020.json
-    - assets/quizzes/2021.json
-    - assets/quizzes/2022.json
-    - assets/quizzes/2023.json
     - assets/sounds/correct.mp3
     - assets/sounds/incorrect.mp3
     - assets/sounds/question.mp3
     - assets/sounds/gameover.mp3
     - assets/sounds/select.mp3
+    - assets/images/game_over_1.png
+    - assets/images/game_over_2.png
+    - assets/images/game_over_3.png

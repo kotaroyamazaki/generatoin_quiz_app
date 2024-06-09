@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:generation_quiz_app/models/constants.dart';
+import 'package:generation_quiz_app/theme/colors.dart';
 
-void showGameOverDialog(BuildContext context, int score) {
+void showGameOverDialog(
+    BuildContext context, int score, int totalQuestions, VoidCallback onRetry) {
   showDialog(
     context: context,
     barrierDismissible: false, // ダイアログ外をタップしても閉じないようにする
@@ -8,41 +11,128 @@ void showGameOverDialog(BuildContext context, int score) {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
-      title: const Column(
-        children: [
-          Icon(Icons.sentiment_very_dissatisfied, color: Colors.red, size: 50),
-          SizedBox(height: 10),
-          Text(
-            'ゲーム終了',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
+      titlePadding: EdgeInsets.zero,
+      contentPadding: EdgeInsets.zero,
       content: Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            '',
-            style: TextStyle(fontSize: 18),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            '最終スコア: $score',
-            style: const TextStyle(
-                fontSize: 22, fontWeight: FontWeight.bold, color: Colors.red),
+          Stack(
+            alignment: Alignment.topRight,
+            children: [
+              Column(
+                children: [
+                  ClipRRect(
+                    borderRadius:
+                        const BorderRadius.vertical(top: Radius.circular(15)),
+                    child: Image.asset(
+                      'assets/images/game_over_1.png', // ここに画像のパスを指定します
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        const Text(
+                          'Game Over',
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 10),
+                        const Text(
+                          "ライフがなくなりました。\nもう一度挑戦してみましょう！",
+                          style: TextStyle(fontSize: 16),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Column(
+                              children: [
+                                const Text(
+                                  '問題数:',
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                                Text(
+                                  '$totalQuestions/$maxQuizNum',
+                                  style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                const Text(
+                                  '正解数:',
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                                Text(
+                                  '$score',
+                                  style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        SizedBox(
+                          height: 48,
+                          width: MediaQuery.of(context).size.width - 64,
+                          child: ElevatedButton(
+                            onPressed: onRetry,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: primaryColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(24),
+                              ),
+                            ),
+                            child: const Text(
+                              'もう一度挑戦する',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        SizedBox(
+                          height: 48,
+                          width: MediaQuery.of(context).size.width - 64,
+                          child: OutlinedButton(
+                            onPressed: () {
+                              Navigator.of(context).pop(); // ダイアログを閉じる
+                              Navigator.of(context).pop(); // タイトルに戻る
+                            },
+                            style: OutlinedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(24),
+                              ),
+                            ),
+                            child: const Text(
+                              'タイトルに戻る',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 32),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ],
       ),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop(); // ダイアログを閉じる
-            Navigator.of(context).pop(); // 前の画面に戻る
-          },
-          child: const Text('OK', style: TextStyle(fontSize: 18)),
-        ),
-      ],
     ),
   );
 }
