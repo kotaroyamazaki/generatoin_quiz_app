@@ -1,15 +1,12 @@
 import 'package:audioplayers/audioplayers.dart';
-import 'package:generation_quiz_app/provider/providers.dart';
-import 'package:generation_quiz_app/screens/quiz_screen.dart';
-import 'package:generation_quiz_app/services/storage_service.dart';
-import 'package:generation_quiz_app/theme/colors.dart';
-import 'package:generation_quiz_app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-const maxQuizNum = 30;
-const maxQuizYear = 2023;
-const minQuizYear = 2015;
+import 'package:generation_quiz_app/models/constants.dart';
+import 'package:generation_quiz_app/provider/providers.dart';
+import 'package:generation_quiz_app/provider/score_notifier.dart';
+import 'package:generation_quiz_app/screens/quiz_screen.dart';
+import 'package:generation_quiz_app/theme/colors.dart';
+import 'package:generation_quiz_app/theme/theme.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -18,7 +15,7 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final player = AudioPlayer();
     final firestoreService = ref.watch(firestoreServiceProvider);
-    final storageService = ref.watch(storageServiceProvider);
+    final scores = ref.watch(scoreProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -27,84 +24,61 @@ class HomeScreen extends ConsumerWidget {
       body: Container(
         decoration: backgroundDecoration,
         child: SafeArea(
-          child: FutureBuilder<Map<String, int>>(
-            future: _loadScores(storageService),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
+          child: scores.isEmpty
+              ? const Center(child: CircularProgressIndicator())
+              : ListView.builder(
+                  padding: const EdgeInsets.all(16.0),
+                  itemCount: maxQuizYear - minQuizYear + 1,
+                  itemBuilder: (context, index) {
+                    final year = (2023 - index).toString();
+                    final score = scores[year] ?? '--';
 
-              if (snapshot.hasError) {
-                return const Center(child: Text('エラーが発生しました。'));
-              }
-
-              final scores = snapshot.data ?? {};
-
-              return ListView(
-                padding: const EdgeInsets.all(16.0),
-                children: List.generate(maxQuizYear - minQuizYear + 1, (index) {
-                  final year = (2023 - index).toString();
-                  final score = scores[year] ?? '--';
-
-                  return Card(
-                    margin: const EdgeInsets.symmetric(vertical: 10.0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    elevation: 5.0,
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 20.0),
-                      title: Text(
-                        '$year年のクイズ',
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    return Card(
+                      margin: const EdgeInsets.symmetric(vertical: 10.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
                       ),
-                      trailing: _buildScoreDisplay(score),
-                      onTap: () async {
-                        final quizzes =
-                            await firestoreService.loadQuizzes(year);
-                        if (quizzes.isEmpty) {
+                      elevation: 5.0,
+                      child: ListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 20.0),
+                        title: Text(
+                          '$year年のクイズ',
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        trailing: _buildScoreDisplay(score),
+                        onTap: () async {
+                          final quizzes =
+                              await firestoreService.loadQuizzes(year);
+                          if (quizzes.isEmpty) {
+                            if (!context.mounted) return;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('クイズが見つかりませんでした。'),
+                              ),
+                            );
+                            return;
+                          }
                           if (!context.mounted) return;
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('クイズが見つかりませんでした。'),
+                          player.play(AssetSource('sounds/select.mp3'));
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => QuizDetailScreen(
+                                  year: year, quizzes: quizzes),
                             ),
                           );
-                          return;
-                        }
-                        if (!context.mounted) return;
-                        player.play(AssetSource('sounds/select.mp3'));
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                QuizDetailScreen(year: year, quizzes: quizzes),
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                }),
-              );
-            },
-          ),
+                        },
+                      ),
+                    );
+                  },
+                ),
         ),
       ),
     );
-  }
-
-  Future<Map<String, int>> _loadScores(StorageService storageService) async {
-    final scores = <String, int>{};
-    for (var year = minQuizYear; year <= maxQuizYear; year++) {
-      final score = await storageService.getAchievement(year.toString());
-      if (score != null) {
-        scores[year.toString()] = score;
-      }
-    }
-    return scores;
   }
 
   Widget _buildScoreDisplay(dynamic score) {

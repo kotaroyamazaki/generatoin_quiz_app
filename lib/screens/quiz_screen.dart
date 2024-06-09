@@ -1,9 +1,8 @@
-import 'dart:math';
-
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:generation_quiz_app/models/quiz.dart';
-import 'package:generation_quiz_app/models/singletons_data.dart';
-import 'package:generation_quiz_app/provider/providers.dart';
+import 'package:generation_quiz_app/provider/score_notifier.dart';
 import 'package:generation_quiz_app/services/storage_service.dart';
 import 'package:generation_quiz_app/theme/theme.dart';
 import 'package:generation_quiz_app/widgets/conpleteion_dialog.dart';
@@ -12,9 +11,7 @@ import 'package:generation_quiz_app/widgets/game_over_dialog.dart';
 import 'package:generation_quiz_app/widgets/lives.dart';
 import 'package:generation_quiz_app/widgets/option_list.dart';
 import 'package:generation_quiz_app/widgets/question_card.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'dart:math';
 
 class QuizDetailScreen extends ConsumerStatefulWidget {
   final String year;
@@ -27,29 +24,18 @@ class QuizDetailScreen extends ConsumerStatefulWidget {
   QuizScreenState createState() => QuizScreenState();
 }
 
-const maxQuizNum = 30;
-
 class QuizScreenState extends ConsumerState<QuizDetailScreen> {
   int _currentQuizIndex = 0;
   int _score = 0;
   int _lives = 5;
-  late StorageService _storageService;
   late List<Quiz> _shuffledQuizzes;
   final player = AudioPlayer();
 
   @override
   void initState() {
     super.initState();
-    _storageService = ref.read(storageServiceProvider);
     _shuffleQuizzes();
     player.play(AssetSource('sounds/question.mp3'));
-  }
-
-  Future<void> loadScore() async {
-    final savedScore = await _storageService.getAchievement(widget.year);
-    setState(() {
-      _score = savedScore ?? 0;
-    });
   }
 
   void _shuffleQuizzes() {
@@ -69,11 +55,8 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
       setState(() {
         _score++;
       });
-      _storageService.getAchievement(widget.year).then((highScore) {
-        if (_score > (highScore ?? 0)) {
-          _storageService.saveAchievement(widget.year, _score);
-        }
-      });
+      final scoreNotifier = ref.read(scoreProvider.notifier);
+      scoreNotifier.saveScore(widget.year, _score);
     } else {
       player.play(AssetSource('sounds/incorrect.mp3'));
       setState(() {
@@ -86,7 +69,7 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
         if (_lives <= 0) {
           player.play(AssetSource('sounds/gameover.mp3'));
           showGameOverDialog(context, _score);
-        } else if (_currentQuizIndex < maxQuizNum - 1) {
+        } else if (_currentQuizIndex < _shuffledQuizzes.length - 1) {
           _currentQuizIndex++;
           player.play(AssetSource('sounds/question.mp3'));
         } else {
@@ -105,21 +88,18 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final currentQuiz = _shuffledQuizzes[_currentQuizIndex];
-    final progress = (_currentQuizIndex + 1) / maxQuizNum;
-
     return Scaffold(
       appBar: AppBar(
-        title: Text('${widget.year}年のクイズ'),
+        title: Text('${widget.year}年のクイズ',
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
       ),
       body: Container(
         decoration: backgroundDecoration,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildProgressBar(progress),
-              const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -127,37 +107,15 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
                   _buildScore(),
                 ],
               ),
-              Text(
-                '問題 ${_currentQuizIndex + 1} / $maxQuizNum',
-                style: const TextStyle(fontSize: 16, color: Colors.white),
-              ),
-              const SizedBox(height: 8),
-              QuestionCard(quiz: currentQuiz),
               const SizedBox(height: 20),
+              QuestionCard(quiz: currentQuiz),
+              const SizedBox(height: 30),
               OptionsList(quiz: currentQuiz, onOptionSelected: _submitAnswer),
               const SizedBox(height: 20),
-              const Expanded(child: SizedBox()),
-              appData.banner == null
-                  ? const SizedBox()
-                  : Container(
-                      alignment: Alignment.center,
-                      width: appData.banner!.size.width.toDouble(),
-                      height: appData.banner!.size.height.toDouble(),
-                      child: AdWidget(ad: appData.banner!),
-                    )
             ],
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildProgressBar(double progress) {
-    return LinearProgressIndicator(
-      value: progress,
-      backgroundColor: Colors.white24,
-      valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
-      minHeight: 8,
     );
   }
 
