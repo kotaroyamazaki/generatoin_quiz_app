@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:generation_quiz_app/models/constants.dart';
 import 'package:generation_quiz_app/models/quiz.dart';
+import 'package:generation_quiz_app/models/singletons_data.dart';
 import 'package:generation_quiz_app/provider/score_notifier.dart';
-import 'package:generation_quiz_app/services/storage_service.dart';
 import 'package:generation_quiz_app/theme/theme.dart';
 import 'package:generation_quiz_app/widgets/conpleteion_dialog.dart';
 import 'package:generation_quiz_app/widgets/feedback_dialog.dart';
 import 'package:generation_quiz_app/widgets/game_over_dialog.dart';
 import 'package:generation_quiz_app/widgets/lives.dart';
 import 'package:generation_quiz_app/widgets/option_list.dart';
+import 'package:generation_quiz_app/widgets/progress_bar.dart';
 import 'package:generation_quiz_app/widgets/question_card.dart';
 import 'dart:math';
+
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class QuizDetailScreen extends ConsumerStatefulWidget {
   final String year;
@@ -88,18 +92,22 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final currentQuiz = _shuffledQuizzes[_currentQuizIndex];
+    final progress = (_currentQuizIndex + 1) / maxQuizNum;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('${widget.year}年のクイズ',
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
       ),
       body: Container(
         decoration: backgroundDecoration,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              QuizProgressBar(progress),
+              const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -107,11 +115,24 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
                   _buildScore(),
                 ],
               ),
+              Text(
+                '問題 ${_currentQuizIndex + 1} / $maxQuizNum',
+                style: const TextStyle(fontSize: 16, color: Colors.white),
+              ),
               const SizedBox(height: 20),
               QuestionCard(quiz: currentQuiz),
               const SizedBox(height: 30),
               OptionsList(quiz: currentQuiz, onOptionSelected: _submitAnswer),
               const SizedBox(height: 20),
+              const Expanded(child: SizedBox()),
+              appData.banner == null
+                  ? const SizedBox()
+                  : Container(
+                      alignment: Alignment.center,
+                      width: appData.banner!.size.width.toDouble(),
+                      height: appData.banner!.size.height.toDouble(),
+                      child: AdWidget(ad: appData.banner!),
+                    )
             ],
           ),
         ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 void showGameOverDialog(BuildContext context, int score) {
   showDialog(
     context: context,
+    barrierDismissible: false, // ダイアログ外をタップしても閉じないようにする
     builder: (context) => AlertDialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
@@ -36,8 +37,8 @@ void showGameOverDialog(BuildContext context, int score) {
       actions: [
         TextButton(
           onPressed: () {
-            Navigator.of(context).pop();
-            Navigator.of(context).pop();
+            Navigator.of(context).pop(); // ダイアログを閉じる
+            Navigator.of(context).pop(); // 前の画面に戻る
           },
           child: const Text('OK', style: TextStyle(fontSize: 18)),
         ),
