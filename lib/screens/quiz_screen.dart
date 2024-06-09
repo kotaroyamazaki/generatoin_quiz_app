@@ -127,6 +127,7 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
                 '問題 ${_currentQuizIndex + 1} / $maxQuizNum',
                 style: const TextStyle(fontSize: 16, color: black),
               ),
+              const SizedBox(height: 4),
               quizProgressBar(progress),
               const SizedBox(height: 16),
               Row(
@@ -160,11 +161,28 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
 
   Widget _buildScore() {
     return Align(
-      alignment: Alignment.centerRight,
-      child: Text(
-        '得点: $_score',
-        style: const TextStyle(fontSize: 18, color: black),
-      ),
-    );
+        alignment: Alignment.centerRight,
+        // child: Text(
+        //   '得点: $_score',
+        //   style: const TextStyle(fontSize: 18, color: black),
+        // )
+        child: Container(
+          padding: const EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+            color: primaryColor,
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          height: 48,
+          width: 48,
+          child: Text(
+            '$_score',
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 20,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ));
   }
 }

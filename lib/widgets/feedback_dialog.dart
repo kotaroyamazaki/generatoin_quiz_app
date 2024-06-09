@@ -22,49 +22,54 @@ void showFeedbackDialog(BuildContext context, bool isCorrect, String userAnswer,
           ),
         ],
       ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Divider(),
-          const Text(
-            '正解:',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-          ),
-          Text(
-            quiz.answer,
-            style: const TextStyle(fontSize: 18, color: Colors.black54),
-          ),
-          if (!isCorrect) ...[
-            const SizedBox(height: 10),
+      content: SizedBox(
+        height: 360,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Divider(),
             const Text(
-              'あなたの回答:',
+              '正解:',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
             Text(
-              userAnswer,
+              quiz.answer,
               style: const TextStyle(fontSize: 18, color: Colors.black54),
             ),
+            if (!isCorrect) ...[
+              const SizedBox(height: 10),
+              const Text(
+                'あなたの回答:',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+              Text(
+                userAnswer,
+                style: const TextStyle(fontSize: 18, color: Colors.black54),
+              ),
+            ],
+            const SizedBox(height: 10),
+            const Divider(),
+            const Text(
+              '解説:',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            Text(
+              quiz.explanation,
+              style: const TextStyle(fontSize: 16, color: Colors.black87),
+            ),
+            const Expanded(child: SizedBox()),
+            const SizedBox(height: 10),
+            CustomButton(
+              text: '次へ',
+              onPressed: () {
+                Navigator.of(context).pop();
+                onNext();
+              },
+            ),
+            const SizedBox(height: 10),
           ],
-          const SizedBox(height: 10),
-          const Divider(),
-          const Text(
-            '解説:',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-          ),
-          Text(
-            quiz.explanation,
-            style: const TextStyle(fontSize: 16, color: Colors.black87),
-          ),
-          const SizedBox(height: 40),
-          CustomButton(
-            text: '次へ',
-            onPressed: () {
-              Navigator.of(context).pop();
-              onNext();
-            },
-          ),
-        ],
+        ),
       ),
     ),
   );
