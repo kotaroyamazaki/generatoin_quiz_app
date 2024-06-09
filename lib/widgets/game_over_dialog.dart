@@ -1,9 +1,15 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:generation_quiz_app/models/constants.dart';
 import 'package:generation_quiz_app/theme/colors.dart';
 
 void showGameOverDialog(
     BuildContext context, int score, int totalQuestions, VoidCallback onRetry) {
+  // gameover の画像のパスは３種類の中からランダムで表示する
+  final randomImageIndex = Random().nextInt(3) + 1;
+  final gameOverImagePath = 'assets/images/game_over_$randomImageIndex.png';
+
   showDialog(
     context: context,
     barrierDismissible: false, // ダイアログ外をタップしても閉じないようにする
@@ -25,7 +31,7 @@ void showGameOverDialog(
                     borderRadius:
                         const BorderRadius.vertical(top: Radius.circular(15)),
                     child: Image.asset(
-                      'assets/images/game_over_1.png', // ここに画像のパスを指定します
+                      gameOverImagePath, // ここに画像のパスを指定します
                       fit: BoxFit.cover,
                     ),
                   ),
