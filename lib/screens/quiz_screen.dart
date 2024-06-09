@@ -5,6 +5,7 @@ import 'package:generation_quiz_app/models/constants.dart';
 import 'package:generation_quiz_app/models/quiz.dart';
 import 'package:generation_quiz_app/models/singletons_data.dart';
 import 'package:generation_quiz_app/provider/score_notifier.dart';
+import 'package:generation_quiz_app/theme/colors.dart';
 import 'package:generation_quiz_app/theme/theme.dart';
 import 'package:generation_quiz_app/widgets/conpleteion_dialog.dart';
 import 'package:generation_quiz_app/widgets/feedback_dialog.dart';
@@ -104,8 +105,12 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Text(
+                '問題 ${_currentQuizIndex + 1} / $maxQuizNum',
+                style: const TextStyle(fontSize: 16, color: black),
+              ),
               quizProgressBar(progress),
               const SizedBox(height: 16),
               Row(
@@ -115,10 +120,6 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
                   _buildScore(),
                 ],
               ),
-              Text(
-                '問題 ${_currentQuizIndex + 1} / $maxQuizNum',
-                style: const TextStyle(fontSize: 16, color: Colors.white),
-              ),
               const SizedBox(height: 20),
               QuestionCard(quiz: currentQuiz),
               const SizedBox(height: 30),
@@ -127,11 +128,12 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
               const Expanded(child: SizedBox()),
               appData.banner == null
                   ? const SizedBox()
-                  : Container(
-                      alignment: Alignment.center,
-                      width: appData.banner!.size.width.toDouble(),
-                      height: appData.banner!.size.height.toDouble(),
-                      child: AdWidget(ad: appData.banner!),
+                  : Center(
+                      child: SizedBox(
+                        width: appData.banner!.size.width.toDouble(),
+                        height: appData.banner!.size.height.toDouble(),
+                        child: AdWidget(ad: appData.banner!),
+                      ),
                     )
             ],
           ),
@@ -145,7 +147,7 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
       alignment: Alignment.centerRight,
       child: Text(
         'スコア: $_score',
-        style: const TextStyle(fontSize: 18, color: Colors.white),
+        style: const TextStyle(fontSize: 18, color: black),
       ),
     );
   }

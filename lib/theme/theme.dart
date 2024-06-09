@@ -35,7 +35,7 @@ final ThemeData appTheme = ThemeData(
   ),
 );
 
-final BoxDecoration backgroundDecoration = BoxDecoration(color: primaryColor
+final BoxDecoration backgroundDecoration = BoxDecoration(color: backgroundColor
     // gradient: LinearGradient(
     //   colors: [Colors.indigo.shade200, Colors.indigo.shade800],
     //   begin: Alignment.topCenter,

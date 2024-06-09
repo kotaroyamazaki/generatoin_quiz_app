@@ -14,19 +14,23 @@ class OptionsList extends StatelessWidget {
     return Column(
       children: quiz.options.map((option) {
         return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          padding: const EdgeInsets.symmetric(vertical: 12.0),
           child: ElevatedButton(
             onPressed: () => onOptionSelected(option),
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white,
+              backgroundColor: primaryColor,
               foregroundColor: black,
-              minimumSize: const Size(double.infinity, 64),
+              minimumSize: const Size(double.infinity, 48),
               textStyle: const TextStyle(fontSize: 18),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(24.0),
               ),
             ),
-            child: Text(option),
+            child: Text(
+              option,
+              style: const TextStyle(
+                  color: Colors.white, fontWeight: FontWeight.bold),
+            ),
           ),
         );
       }).toList(),
