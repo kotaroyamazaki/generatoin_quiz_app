@@ -134,7 +134,14 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Lives(lives: _lives),
-                  _buildScore(),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        const Text('得点: ',
+                            style: TextStyle(fontSize: 16, color: black)),
+                        _buildScore(),
+                      ]),
                 ],
               ),
               const SizedBox(height: 20),
@@ -162,10 +169,6 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
   Widget _buildScore() {
     return Align(
         alignment: Alignment.centerRight,
-        // child: Text(
-        //   '得点: $_score',
-        //   style: const TextStyle(fontSize: 18, color: black),
-        // )
         child: Container(
           padding: const EdgeInsets.all(8.0),
           decoration: BoxDecoration(
@@ -178,7 +181,7 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
             '$_score',
             textAlign: TextAlign.center,
             style: const TextStyle(
-              fontSize: 20,
+              fontSize: 18,
               color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
