@@ -6,7 +6,6 @@ import 'package:generation_quiz_app/provider/providers.dart';
 import 'package:generation_quiz_app/provider/score_notifier.dart';
 import 'package:generation_quiz_app/screens/quiz_screen.dart';
 import 'package:generation_quiz_app/theme/colors.dart';
-import 'package:generation_quiz_app/theme/theme.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -19,86 +18,84 @@ class HomeScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Quizzes',
-          style: TextStyle(fontWeight: FontWeight.bold, color: black),
-        ),
-        backgroundColor: backgroundColor,
-        centerTitle: true,
-        elevation: 0,
+        backgroundColor: primaryColor,
+        title: const Text('あのときのクイズ'),
+        actions: const [
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Image(image: AssetImage('assets/images/training_man.png')),
+          ),
+        ],
       ),
-      body: Container(
-        decoration: backgroundDecoration,
-        child: SafeArea(
-          child: scores.isEmpty
-              ? const Center(child: CircularProgressIndicator())
-              : ListView.separated(
-                  separatorBuilder: (context, index) => const Divider(
-                    color: grey,
-                    height: 1,
-                  ),
-                  itemCount: maxQuizYear - minQuizYear + 1,
-                  itemBuilder: (context, index) {
-                    final year = (maxQuizYear - index).toString();
-                    final score = scores[year] ?? '--';
+      body: SafeArea(
+        child: scores.isEmpty
+            ? const Center(child: CircularProgressIndicator())
+            : ListView.separated(
+                separatorBuilder: (context, index) => const Divider(
+                  color: grey,
+                  height: 1,
+                ),
+                itemCount: maxQuizYear - minQuizYear + 1,
+                itemBuilder: (context, index) {
+                  final year = (maxQuizYear - index).toString();
+                  final score = scores[year] ?? '--';
 
-                    return ListTile(
-                      leading: Container(
-                        height: 48,
-                        width: 48,
-                        decoration: BoxDecoration(
-                          // E8EDF5 color
-                          color: const Color(0xFFE8EDF5),
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        child: Icon(Icons.emoji_events_outlined,
-                            size: 24,
-                            color: score == maxQuizNum ? Colors.yellow : black),
+                  return ListTile(
+                    tileColor: Colors.white,
+                    leading: Container(
+                      height: 48,
+                      width: 48,
+                      decoration: BoxDecoration(
+                        // E8EDF5 color
+                        color: const Color(0xFFE8EDF5),
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 20.0),
-                      title: Text(
-                        '$year年のクイズ',
-                        style: const TextStyle(
-                          color: black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      child: Icon(Icons.emoji_events_outlined,
+                          size: 24,
+                          color: score == maxQuizNum ? Colors.yellow : black),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 10.0, horizontal: 20.0),
+                    title: Text(
+                      '$year年のクイズ',
+                      style: const TextStyle(
+                        color: black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
-                      subtitle: Text(
-                        '得点: ${score != 0 ? score : "--"}/$maxQuizNum 点',
-                        style: const TextStyle(
-                          fontSize: 16,
-                        ),
+                    ),
+                    subtitle: Text(
+                      '得点: ${score != 0 ? score : "--"}/$maxQuizNum 点',
+                      style: const TextStyle(
+                        fontSize: 16,
                       ),
-                      trailing: const Icon(Icons.arrow_forward_ios,
-                          color: Colors.black),
-                      onTap: () async {
-                        final quizzes =
-                            await firestoreService.loadQuizzes(year);
-                        if (quizzes.isEmpty) {
-                          if (!context.mounted) return;
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('クイズが見つかりませんでした。'),
-                            ),
-                          );
-                          return;
-                        }
+                    ),
+                    trailing: const Icon(Icons.arrow_forward_ios,
+                        color: Colors.black),
+                    onTap: () async {
+                      final quizzes = await firestoreService.loadQuizzes(year);
+                      if (quizzes.isEmpty) {
                         if (!context.mounted) return;
-                        player.play(AssetSource('sounds/select.mp3'));
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                QuizDetailScreen(year: year, quizzes: quizzes),
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('クイズが見つかりませんでした。'),
                           ),
                         );
-                      },
-                    );
-                  },
-                ),
-        ),
+                        return;
+                      }
+                      if (!context.mounted) return;
+                      player.play(AssetSource('sounds/select.mp3'));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              QuizDetailScreen(year: year, quizzes: quizzes),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
       ),
     );
   }
