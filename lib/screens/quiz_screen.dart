@@ -105,7 +105,7 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final currentQuiz = _shuffledQuizzes[_currentQuizIndex];
-    final progress = (_currentQuizIndex + 1) / _shuffledQuizzes.length;
+    final progress = (_currentQuizIndex + 1) / maxQuizNum;
 
     return Scaffold(
       appBar: AppBar(
