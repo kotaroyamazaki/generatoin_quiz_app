@@ -7,7 +7,7 @@ final ThemeData appTheme = ThemeData(
   hintColor: Colors.orangeAccent,
   textTheme: GoogleFonts.latoTextTheme(),
   cardTheme: CardTheme(
-    margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
+    margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(10.0),
     ),
@@ -15,17 +15,17 @@ final ThemeData appTheme = ThemeData(
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      backgroundColor: Color(0xFFBBADA0),
+      backgroundColor: const Color(0xFFBBADA0),
       //   onPrimary: Colors.white
 
-      textStyle: TextStyle(fontSize: 16),
-      padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+      textStyle: const TextStyle(fontSize: 16),
+      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
     ),
   ),
-  appBarTheme: AppBarTheme(
+  appBarTheme: const AppBarTheme(
     backgroundColor: primaryColor,
     titleTextStyle: TextStyle(
       fontSize: 20,
@@ -35,7 +35,7 @@ final ThemeData appTheme = ThemeData(
   ),
 );
 
-final BoxDecoration backgroundDecoration = BoxDecoration(color: backgroundColor
+const BoxDecoration backgroundDecoration = BoxDecoration(color: backgroundColor
     // gradient: LinearGradient(
     //   colors: [Colors.indigo.shade200, Colors.indigo.shade800],
     //   begin: Alignment.topCenter,
