@@ -106,7 +106,7 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              QuizProgressBar(progress),
+              quizProgressBar(progress),
               const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -1,17 +1,8 @@
-// Widget _buildProgressBar(double progress) {
-//   return LinearProgressIndicator(
-//     value: progress,
-//     backgroundColor: Colors.white24,
-//     valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
-//     minHeight: 8,
-//   );
-// }
-// class
-
 import 'package:flutter/material.dart';
 
-Widget QuizProgressBar(double progress) {
+Widget quizProgressBar(double progress) {
   return LinearProgressIndicator(
+    borderRadius: BorderRadius.circular(4),
     value: progress,
     backgroundColor: Colors.white24,
     valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),

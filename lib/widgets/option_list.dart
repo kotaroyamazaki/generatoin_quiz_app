@@ -21,10 +21,9 @@ class OptionsList extends StatelessWidget {
               backgroundColor: Colors.white,
               foregroundColor: black,
               minimumSize: const Size(double.infinity, 64),
-              textStyle:
-                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              textStyle: const TextStyle(fontSize: 18),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
+                borderRadius: BorderRadius.circular(24.0),
               ),
             ),
             child: Text(option),
