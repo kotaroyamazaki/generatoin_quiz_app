@@ -13,7 +13,7 @@ String getAdBannerUnitId() {
     // iOSのとき
     bannerUnitId = kDebugMode
         ? "ca-app-pub-3940256099942544/2934735716" // iOSのデモ用バナー広告ID
-        : "-";
+        : "ca-app-pub-7720720107332968/4131795352";
   }
   return bannerUnitId;
 }
@@ -30,7 +30,7 @@ String getAdInterstitialUnitId() {
     // iOSのとき
     interstitialUnitId = kDebugMode
         ? "ca-app-pub-3940256099942544/4411468910" // iOSのデモ用インタースティシャル広告ID
-        : "-";
+        : "ca-app-pub-7720720107332968/5693957330";
   }
   return interstitialUnitId;
 }
