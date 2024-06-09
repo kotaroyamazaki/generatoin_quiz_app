@@ -57,7 +57,7 @@ void showFeedbackDialog(BuildContext context, bool isCorrect, String userAnswer,
             style: const TextStyle(fontSize: 16, color: Colors.black87),
           ),
           const SizedBox(height: 40),
-          Button(
+          CustomButton(
             text: '次へ',
             onPressed: () {
               Navigator.of(context).pop();
