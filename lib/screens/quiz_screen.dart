@@ -98,7 +98,9 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('${widget.year}年のクイズ',
-            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+            style: const TextStyle(
+                fontSize: 22, fontWeight: FontWeight.bold, color: black)),
+        backgroundColor: backgroundColor,
       ),
       body: Container(
         decoration: backgroundDecoration,
@@ -146,7 +148,7 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
     return Align(
       alignment: Alignment.centerRight,
       child: Text(
-        'スコア: $_score',
+        '得点: $_score',
         style: const TextStyle(fontSize: 18, color: black),
       ),
     );

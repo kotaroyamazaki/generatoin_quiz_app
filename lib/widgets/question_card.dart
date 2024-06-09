@@ -12,10 +12,10 @@ class QuestionCard extends StatelessWidget {
     return SizedBox(
       height: 200,
       child: Card(
-        color: Colors.white,
-        elevation: 5.0,
+        color: backgroundColor,
+        elevation: 1.0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
+          borderRadius: BorderRadius.circular(16.0),
         ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
