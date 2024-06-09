@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:education_quiz_app/models/quiz.dart';
 import 'package:education_quiz_app/provider/providers.dart';
@@ -11,7 +13,6 @@ import 'package:education_quiz_app/widgets/option_list.dart';
 import 'package:education_quiz_app/widgets/question_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'dart:math';
 
 class QuizDetailScreen extends ConsumerStatefulWidget {
   final String year;
@@ -23,6 +24,8 @@ class QuizDetailScreen extends ConsumerStatefulWidget {
   @override
   QuizScreenState createState() => QuizScreenState();
 }
+
+const maxQuizNum = 30;
 
 class QuizScreenState extends ConsumerState<QuizDetailScreen> {
   int _currentQuizIndex = 0;
@@ -36,7 +39,6 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
   void initState() {
     super.initState();
     _storageService = ref.read(storageServiceProvider);
-    // _loadScore();
     _shuffleQuizzes();
     player.play(AssetSource('sounds/question.mp3'));
   }
@@ -65,7 +67,6 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
       setState(() {
         _score++;
       });
-      // Update storage if current score exceeds high score
       _storageService.getAchievement(widget.year).then((highScore) {
         if (_score > (highScore ?? 0)) {
           _storageService.saveAchievement(widget.year, _score);
@@ -83,7 +84,7 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
         if (_lives <= 0) {
           player.play(AssetSource('sounds/gameover.mp3'));
           showGameOverDialog(context, _score);
-        } else if (_currentQuizIndex < _shuffledQuizzes.length - 1) {
+        } else if (_currentQuizIndex < maxQuizNum - 1) {
           _currentQuizIndex++;
           player.play(AssetSource('sounds/question.mp3'));
         } else {
@@ -102,6 +103,8 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final currentQuiz = _shuffledQuizzes[_currentQuizIndex];
+    final progress = (_currentQuizIndex + 1) / _shuffledQuizzes.length;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('${widget.year}年のクイズ'),
@@ -113,10 +116,16 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              _buildProgressBar(progress),
+              const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Lives(lives: _lives),
+                  Text(
+                    '問題 ${_currentQuizIndex + 1} / $maxQuizNum',
+                    style: const TextStyle(fontSize: 16, color: Colors.white),
+                  ),
                   _buildScore(),
                 ],
               ),
@@ -129,6 +138,15 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildProgressBar(double progress) {
+    return LinearProgressIndicator(
+      value: progress,
+      backgroundColor: Colors.white24,
+      valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+      minHeight: 8,
     );
   }
 
