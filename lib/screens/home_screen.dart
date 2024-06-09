@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 const maxQuizNum = 30;
+const maxQuizYear = 2023;
+const minQuizYear = 2015;
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -40,7 +42,7 @@ class HomeScreen extends ConsumerWidget {
 
               return ListView(
                 padding: const EdgeInsets.all(16.0),
-                children: List.generate(2023 - 2014 + 1, (index) {
+                children: List.generate(maxQuizYear - minQuizYear + 1, (index) {
                   final year = (2023 - index).toString();
                   final score = scores[year] ?? '--';
 
@@ -96,7 +98,7 @@ class HomeScreen extends ConsumerWidget {
 
   Future<Map<String, int>> _loadScores(StorageService storageService) async {
     final scores = <String, int>{};
-    for (var year = 2000; year <= 2023; year++) {
+    for (var year = minQuizYear; year <= maxQuizYear; year++) {
       final score = await storageService.getAchievement(year.toString());
       if (score != null) {
         scores[year.toString()] = score;
