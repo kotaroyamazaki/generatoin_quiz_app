@@ -7,6 +7,8 @@ import 'package:generation_quiz_app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+const maxQuizNum = 30;
+
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
@@ -38,7 +40,7 @@ class HomeScreen extends ConsumerWidget {
 
               return ListView(
                 padding: const EdgeInsets.all(16.0),
-                children: List.generate(2023 - 2010 + 1, (index) {
+                children: List.generate(2023 - 2014 + 1, (index) {
                   final year = (2023 - index).toString();
                   final score = scores[year] ?? '--';
 
@@ -109,7 +111,7 @@ class HomeScreen extends ConsumerWidget {
       children: [
         Icon(
           Icons.star,
-          color: score == 50 ? Colors.red : Colors.grey,
+          color: score == maxQuizNum ? Colors.red : Colors.grey,
         ),
         const SizedBox(width: 5),
         RichText(
@@ -120,11 +122,11 @@ class HomeScreen extends ConsumerWidget {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: score == 50 ? Colors.red : black,
+                  color: score == maxQuizNum ? Colors.red : black,
                 ),
               ),
               const TextSpan(
-                text: ' / 50点',
+                text: ' / $maxQuizNum点',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.normal,
