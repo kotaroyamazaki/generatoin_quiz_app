@@ -148,17 +148,19 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
                 QuestionCard(quiz: currentQuiz),
                 const SizedBox(height: 3),
                 OptionsList(quiz: currentQuiz, onOptionSelected: _submitAnswer),
-                //  const SizedBox(height: 20),
-//                const Expanded(child: SizedBox()),
-                // appData.banner == null
-                //     ? const SizedBox()
-                //     : Center(
-                //         child: SizedBox(
-                //           width: appData.banner!.size.width.toDouble(),
-                //           height: appData.banner!.size.height.toDouble(),
-                //           child: AdWidget(ad: appData.banner!),
-                //         ),
-                //       )
+                if (!appData.isSmallScreen) ...[
+                  const SizedBox(height: 20),
+                  const Expanded(child: SizedBox()),
+                  appData.banner == null
+                      ? const SizedBox()
+                      : Center(
+                          child: SizedBox(
+                            width: appData.banner!.size.width.toDouble(),
+                            height: appData.banner!.size.height.toDouble(),
+                            child: AdWidget(ad: appData.banner!),
+                          ),
+                        )
+                ],
               ],
             ),
           ),
