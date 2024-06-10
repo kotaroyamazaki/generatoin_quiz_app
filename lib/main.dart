@@ -18,6 +18,7 @@ void main() async {
   );
 
   loadBannerAd();
+  // SEかどうかの判定
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -26,8 +27,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.of(context).size.height;
+    // iPhone SE の画面幅を基準にする
+    appData.isSmallScreen = screenHeight <= 670.0;
+
     return MaterialApp(
       title: 'あのときなにがあった？クイズ',
+      debugShowCheckedModeBanner: false,
       theme: appTheme,
       home: const HomeScreen(),
     );

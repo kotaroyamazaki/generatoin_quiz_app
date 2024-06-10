@@ -1,4 +1,5 @@
 import 'package:generation_quiz_app/models/quiz.dart';
+import 'package:generation_quiz_app/models/singletons_data.dart';
 import 'package:generation_quiz_app/theme/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,7 @@ class QuestionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 200,
+      height: appData.isSmallScreen ? 150 : 200,
       child: Card(
         color: backgroundColor,
         elevation: 1.0,
@@ -22,7 +23,8 @@ class QuestionCard extends StatelessWidget {
           child: Center(
             child: Text(
               quiz.question,
-              style: const TextStyle(fontSize: 18, color: black),
+              style: TextStyle(
+                  fontSize: appData.isSmallScreen ? 16 : 18, color: black),
             ),
           ),
         ),

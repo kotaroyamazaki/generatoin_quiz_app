@@ -7,6 +7,7 @@ class AppData {
 //  bool isRemoveAds = false;
   String appUserID = '';
   BannerAd? banner;
+  bool isSmallScreen = false;
 
   factory AppData() {
     return _appData;
