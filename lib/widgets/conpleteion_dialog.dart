@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:generation_quiz_app/models/constants.dart';
+import 'package:generation_quiz_app/services/analytics.dart';
 import 'package:generation_quiz_app/widgets/button.dart';
 
 void showCompletionDialog(BuildContext context, int score) {
@@ -86,6 +87,8 @@ void showCompletionDialog(BuildContext context, int score) {
                         CustomButton(
                           text: 'タイトルに戻る',
                           onPressed: () {
+                            AnalyticsService.instance
+                                .logEvent(name: 'tap_title_button');
                             Navigator.of(context).pop(); // ダイアログを閉じる
                             Navigator.of(context).pop(); // タイトルに戻る
                           },

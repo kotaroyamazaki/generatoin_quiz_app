@@ -5,6 +5,7 @@ import 'package:generation_quiz_app/models/constants.dart';
 import 'package:generation_quiz_app/models/quiz.dart';
 import 'package:generation_quiz_app/models/singletons_data.dart';
 import 'package:generation_quiz_app/provider/score_notifier.dart';
+import 'package:generation_quiz_app/services/analytics.dart';
 import 'package:generation_quiz_app/theme/colors.dart';
 import 'package:generation_quiz_app/theme/theme.dart';
 import 'package:generation_quiz_app/widgets/admob_interstatial.dart';
@@ -59,6 +60,13 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
     final currentQuiz = _shuffledQuizzes[_currentQuizIndex];
     bool isCorrect = currentQuiz.answer == selectedOption;
 
+    AnalyticsService.instance.logEvent(name: 'submit_answer', parameters: {
+      'year': widget.year,
+      'question': currentQuiz.question,
+      'selected_option': selectedOption,
+      'is_correct': isCorrect,
+    });
+
     if (isCorrect) {
       player.play(AssetSource('sounds/correct.mp3'));
       setState(() {
@@ -76,6 +84,10 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
     showFeedbackDialog(context, isCorrect, selectedOption, currentQuiz, () {
       setState(() {
         if (_lives <= 0) {
+          AnalyticsService.instance.logEvent(name: 'game_over', parameters: {
+            'year': widget.year,
+            'score': _score,
+          });
           player.play(AssetSource('sounds/gameover.mp3'));
           adInterstitial.showAd();
           showGameOverDialog(
