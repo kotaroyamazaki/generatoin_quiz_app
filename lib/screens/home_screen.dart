@@ -38,7 +38,8 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
       }
     });
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => ATTService.init());
+    WidgetsFlutterBinding.ensureInitialized()
+        .addPostFrameCallback((_) => ATTService.init());
   }
 
   @override
