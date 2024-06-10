@@ -121,44 +121,46 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
                 fontSize: 22, fontWeight: FontWeight.bold, color: black)),
         backgroundColor: backgroundColor,
       ),
-      body: Container(
-        decoration: backgroundDecoration,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '問題 ${_currentQuizIndex + 1} / $maxQuizNum',
-                style: const TextStyle(
-                    fontSize: 16, color: black, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 4),
-              quizProgressBar(progress),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Lives(lives: _lives),
-                  ScoreWidget(score: _score),
-                ],
-              ),
-              const SizedBox(height: 20),
-              QuestionCard(quiz: currentQuiz),
-              const SizedBox(height: 30),
-              OptionsList(quiz: currentQuiz, onOptionSelected: _submitAnswer),
-              const SizedBox(height: 20),
-              const Expanded(child: SizedBox()),
-              appData.banner == null
-                  ? const SizedBox()
-                  : Center(
-                      child: SizedBox(
-                        width: appData.banner!.size.width.toDouble(),
-                        height: appData.banner!.size.height.toDouble(),
-                        child: AdWidget(ad: appData.banner!),
-                      ),
-                    )
-            ],
+      body: SafeArea(
+        child: Container(
+          decoration: backgroundDecoration,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '問題 ${_currentQuizIndex + 1} / $maxQuizNum',
+                  style: const TextStyle(
+                      fontSize: 16, color: black, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 4),
+                quizProgressBar(progress),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Lives(lives: _lives),
+                    ScoreWidget(score: _score),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                QuestionCard(quiz: currentQuiz),
+                const SizedBox(height: 30),
+                OptionsList(quiz: currentQuiz, onOptionSelected: _submitAnswer),
+                const SizedBox(height: 20),
+                const Expanded(child: SizedBox()),
+                appData.banner == null
+                    ? const SizedBox()
+                    : Center(
+                        child: SizedBox(
+                          width: appData.banner!.size.width.toDouble(),
+                          height: appData.banner!.size.height.toDouble(),
+                          child: AdWidget(ad: appData.banner!),
+                        ),
+                      )
+              ],
+            ),
           ),
         ),
       ),

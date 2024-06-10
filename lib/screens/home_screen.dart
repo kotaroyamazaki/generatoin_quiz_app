@@ -43,6 +43,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
     final player = AudioPlayer();
     final firestoreService = ref.watch(firestoreServiceProvider);
     final scores = ref.watch(scoreProvider);
+    var isLoading = false;
 
     return Scaffold(
       appBar: AppBar(
@@ -56,7 +57,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
         ],
       ),
       body: SafeArea(
-        child: scores.isEmpty
+        child: scores.isEmpty || isLoading
             ? const Center(child: CircularProgressIndicator())
             : ListView.separated(
                 separatorBuilder: (context, index) => const Divider(
@@ -100,6 +101,9 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                     trailing: const Icon(Icons.arrow_forward_ios,
                         color: Colors.black),
                     onTap: () async {
+                      setState(() {
+                        isLoading = true;
+                      });
                       final quizzes = await firestoreService.loadQuizzes(year);
                       if (quizzes.isEmpty) {
                         if (!context.mounted) return;
@@ -110,6 +114,10 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                         );
                         return;
                       }
+
+                      setState(() {
+                        isLoading = false;
+                      });
                       if (!context.mounted) return;
                       player.play(AssetSource('sounds/select.mp3'));
                       Navigator.push(
