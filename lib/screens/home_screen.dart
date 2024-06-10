@@ -5,6 +5,7 @@ import 'package:generation_quiz_app/models/constants.dart';
 import 'package:generation_quiz_app/provider/providers.dart';
 import 'package:generation_quiz_app/provider/score_notifier.dart';
 import 'package:generation_quiz_app/screens/quiz_screen.dart';
+import 'package:generation_quiz_app/services/att.dart';
 import 'package:generation_quiz_app/theme/colors.dart';
 import 'package:rate_my_app/rate_my_app.dart';
 
@@ -36,6 +37,8 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
         );
       }
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => ATTService.init());
   }
 
   @override
