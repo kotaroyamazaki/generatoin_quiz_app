@@ -24,11 +24,11 @@ class Quiz {
 
   factory Quiz.fromFirestore(Map<String, dynamic> data) {
     return Quiz(
-      question: data['Question'] ?? '',
-      options: List<String>.from(data['Options']),
-      answer: data['Answer'] ?? '',
-      explanation: data['Explanation'] ?? '',
-      tags: List<String>.from(data['Tags']),
+      question: data['question'] ?? '',
+      options: List<String>.from(data['options']),
+      answer: data['answer'] ?? '',
+      explanation: data['explanation'] ?? '',
+      tags: List<String>.from(data['tags']),
     );
   }
 }
