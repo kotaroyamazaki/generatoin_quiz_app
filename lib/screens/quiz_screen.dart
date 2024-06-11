@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:generation_quiz_app/audio_manager.dart';
 import 'package:generation_quiz_app/models/constants.dart';
 import 'package:generation_quiz_app/models/quiz.dart';
 import 'package:generation_quiz_app/models/singletons_data.dart';
 import 'package:generation_quiz_app/provider/score_notifier.dart';
+import 'package:generation_quiz_app/provider/sound_notifier.dart';
 import 'package:generation_quiz_app/services/analytics.dart';
 import 'package:generation_quiz_app/theme/colors.dart';
 import 'package:generation_quiz_app/theme/theme.dart';
@@ -37,13 +39,15 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
   int _score = 0;
   int _lives = 5;
   late List<Quiz> _shuffledQuizzes;
-  final player = AudioPlayer();
+//  final player = AudioPlayer();
+  late AudioManager player;
   AdInterstitial adInterstitial = AdInterstitial();
 
   @override
   void initState() {
     super.initState();
     _shuffleQuizzes();
+    player = ref.read(audioManagerProvider);
     adInterstitial.init();
     player.play(AssetSource('sounds/question.mp3'));
   }
@@ -125,6 +129,7 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
   Widget build(BuildContext context) {
     final currentQuiz = _shuffledQuizzes[_currentQuizIndex];
     final progress = (_currentQuizIndex + 1) / maxQuizNum;
+    final isSoundOn = ref.watch(soundProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -132,6 +137,15 @@ class QuizScreenState extends ConsumerState<QuizDetailScreen> {
             style: const TextStyle(
                 fontSize: 22, fontWeight: FontWeight.bold, color: black)),
         backgroundColor: backgroundColor,
+        actions: [
+          IconButton(
+            icon: Icon(isSoundOn ? Icons.volume_up : Icons.volume_off,
+                color: black),
+            onPressed: () {
+              ref.read(soundProvider.notifier).toggleSound();
+            },
+          ),
+        ],
       ),
       body: SafeArea(
         child: Container(

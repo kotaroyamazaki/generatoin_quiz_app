@@ -1,9 +1,11 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:generation_quiz_app/audio_manager.dart';
 import 'package:generation_quiz_app/models/constants.dart';
 import 'package:generation_quiz_app/provider/providers.dart';
 import 'package:generation_quiz_app/provider/score_notifier.dart';
+import 'package:generation_quiz_app/provider/sound_notifier.dart';
 import 'package:generation_quiz_app/screens/quiz_screen.dart';
 import 'package:generation_quiz_app/services/analytics.dart';
 import 'package:generation_quiz_app/services/att.dart';
@@ -19,6 +21,8 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class HomeScreenState extends ConsumerState<HomeScreen> {
   late RateMyApp _rateMyApp;
+  late AudioManager player;
+
   bool isLoading = false;
 
   @override
@@ -40,24 +44,29 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
       }
     });
 
+    player = ref.read(audioManagerProvider);
+
     WidgetsFlutterBinding.ensureInitialized()
         .addPostFrameCallback((_) => ATTService.init());
   }
 
   @override
   Widget build(BuildContext context) {
-    final player = AudioPlayer();
     final firestoreService = ref.watch(firestoreServiceProvider);
     final scores = ref.watch(scoreProvider);
+    final isSoundOn = ref.watch(soundProvider);
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColor,
         title: const Text('あのときのクイズ'),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Image(image: AssetImage('assets/images/training_man.png')),
+        actions: [
+          IconButton(
+            icon: Icon(isSoundOn ? Icons.volume_up : Icons.volume_off,
+                color: Colors.white),
+            onPressed: () {
+              ref.read(soundProvider.notifier).toggleSound();
+            },
           ),
         ],
       ),
