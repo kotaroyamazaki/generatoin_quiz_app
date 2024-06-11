@@ -12,11 +12,11 @@ import (
 
 // Quiz represents the structure of each quiz item with JSON tags for lowercase field names
 type Quiz struct {
-	Question    string   `json:"question" firestore:"Question"`
-	Options     []string `json:"options" firestore:"Options"`
-	Answer      string   `json:"answer" firestore:"Answer"`
-	Explanation string   `json:"explanation" firestore:"Explanation"`
-	Tags        []string `json:"tags" firestore:"Tags"`
+	Question    string   `json:"question"`
+	Options     []string `json:"options"`
+	Answer      string   `json:"answer"`
+	Explanation string   `json:"explanation"`
+	Tags        []string `json:"tags"`
 }
 
 func main() {
@@ -30,8 +30,7 @@ func main() {
 	defer client.Close()
 
 	// 対象のコレクションリスト
-//	collections := []string{"2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"}
-	collections := []string{"2022"}
+	collections := []string{"2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"}
 
 	for _, collectionName := range collections {
 		err := updateCollectionFieldNames(ctx, client, collectionName)
@@ -43,7 +42,7 @@ func main() {
 	fmt.Println("フィールド名の整形が完了しました。")
 }
 
-// コレクション内のドキュメントフィールド名を小文字に変換する関数
+// コレクション内のドキュメントフィールド名を小文字に変換し、新しいフィールドを追加する関数
 func updateCollectionFieldNames(ctx context.Context, client *firestore.Client, collectionName string) error {
 	iter := client.Collection(collectionName).Documents(ctx)
 	for {
@@ -64,9 +63,17 @@ func updateCollectionFieldNames(ctx context.Context, client *firestore.Client, c
 			Tags:        convertToStringArray(data["Tags"]),
 		}
 
-		_, err = client.Collection(collectionName).Doc(doc.Ref.ID).Set(ctx, quiz)
+		updateData := map[string]interface{}{
+			"question":    quiz.Question,
+			"options":     quiz.Options,
+			"answer":      quiz.Answer,
+			"explanation": quiz.Explanation,
+			"tags":        quiz.Tags,
+		}
+
+		_, err = client.Collection(collectionName).Doc(doc.Ref.ID).Set(ctx, updateData, firestore.MergeAll)
 		if err != nil {
-			return fmt.Errorf("failed to set document: %v", err)
+			return fmt.Errorf("failed to update document: %v", err)
 		}
 	}
 	return nil
